@@ -5,6 +5,7 @@
 <details>
 <summary> <h2> Spec(Bdd를 활용한 시나리오) </h2> </summary>
 <div markdown="1">
+
 - **Scenario: 유저는 Task 리스트를 볼 수 있으며, 완료되지 않은 테스크는 상단에, 완료된 테스크는 리스트 하단에 표시됩니다.**
 - given: Task 리스트가 존재할 때
   - when: 페이지에 접속하면
