@@ -109,6 +109,8 @@
 </div>
 </details>
 
-### 데이터 스키마
+## 데이터 스키마
 
-<iframe width="560" height="315" src='https://dbdiagram.io/embed/64a6209202bd1c4a5e93f487'> </iframe>
+![Tododiagram](https://github.com/junsobi/typescript-next-todoapp/assets/127650045/827087e3-482a-4292-a255-04832dfeddc0)
+
+
