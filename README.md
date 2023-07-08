@@ -112,6 +112,3 @@
 ## 데이터 스키마
 
 ![Tododiagram](https://github.com/junsobi/typescript-next-todoapp/assets/127650045/f85e645b-d246-402b-9c6b-81a6db23619c)
-
-
-

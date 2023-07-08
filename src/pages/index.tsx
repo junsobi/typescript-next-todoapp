@@ -1,46 +1,31 @@
 import React from 'react';
-import Button from '../components/Button';
-import TaskSection from '../components/TaskSection';
-import AddTask from '../components/AddTask';
+import Layout from '@/components/Layout';
+import TaskTitle from '@/components/TaskTitle';
+import AddTask from '@/components/AddTask';
+import useFetchTasks from '@/hooks/useFetchTasks';
+import TaskItems from '@/components/TaskItems';
+import TaskSummary from '@/components/TaskSummary';
 
 const App: React.FC = () => {
-  const tasks = [
-    { text: 'Task1', completed: false },
-    { text: 'Task2', completed: true },
-  ];
+  const { tasks, loading, error } = useFetchTasks();
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  if (error) {
+    return <div>Error: {error}</div>;
+  }
 
   return (
-    <div
-      className="h-screen w-screen bg-center bg-cover flex items-center justify-center"
-      style={{ backgroundImage: 'url(/abstract.jpg)' }}
-    >
-      <div className="h-5/6 w-11/12 bg-white bg-opacity-95 rounded-3xl overflow-auto p-16">
-        <h1 className="text-5xl pb-10 text-center font-bold ">ToDo List</h1>
-        <AddTask />
-        <TaskSection
-          title="Incompleted"
-          tasks={tasks.filter((task) => !task.completed)}
-        />
-        <TaskSection
-          title="Completed"
-          tasks={tasks.filter((task) => task.completed)}
-        />
-
-        <div className="flex justify-between belowPart">
-          <div>
-            Completed Todos : {tasks.filter((task) => task.completed).length}
-          </div>
-          <div className="deleteButtons flex gap-4">
-            <Button className="bg-gray-400 text-white px-3 py-1 rounded hover:bg-gray-500">
-              Delete selected
-            </Button>
-            <Button className="bg-gray-400 text-white px-3 py-1 rounded hover:bg-gray-500">
-              Clear All
-            </Button>
-          </div>
-        </div>
-      </div>
-    </div>
+    <Layout>
+      <AddTask />
+      <TaskTitle title="Incompleted" />
+      <TaskItems tasks={tasks.filter((task) => task.status !== 'completed')} />
+      <TaskTitle title="Completed" />
+      <TaskItems tasks={tasks.filter((task) => task.status === 'completed')} />
+      <TaskSummary tasks={tasks} />
+    </Layout>
   );
 };
 
