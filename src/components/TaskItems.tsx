@@ -8,7 +8,7 @@ type TaskItemsProps = {
 };
 
 const TaskItems: React.FC<TaskItemsProps> = ({ tasks }) => (
-  <ul>
+  <ul data-testid="task-list">
     {tasks.map((task, i) => (
       <li
         key={i}
