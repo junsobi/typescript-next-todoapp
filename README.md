@@ -111,4 +111,12 @@
 
 ## 데이터 스키마
 
-![Tododiagram](https://github.com/junsobi/typescript-next-todoapp/assets/127650045/f85e645b-d246-402b-9c6b-81a6db23619c)
+| 필드명               | 타입                          | 설명                     |
+| -------------------- | ----------------------------- | ------------------------ |
+| id                   | string                        | 고유 식별자              |
+| title                | string                        | 할 일의 제목             |
+| content              | string                        | 할 일의 내용             |
+| categories           | string[]                      | 할 일의 카테고리         |
+| status               | 'inProgress' 또는 'completed' | 할 일의 상태             |
+| createdDateTime      | Date                          | 할 일 생성 날짜 및 시간  |
+| lastModifiedDateTime | Date                          | 마지막 수정 날짜 및 시간 |
