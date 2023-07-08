@@ -17,13 +17,17 @@ const App: React.FC = () => {
     return <div>Error: {error}</div>;
   }
 
+  const incompletedTasks = tasks.filter((task) => task.status !== 'completed');
+
+  const completedTasks = tasks.filter((task) => task.status === 'completed');
+
   return (
     <Layout>
       <AddTask />
       <TaskTitle title="Incompleted" />
-      <TaskItems tasks={tasks.filter((task) => task.status !== 'completed')} />
+      <TaskItems tasks={incompletedTasks} />
       <TaskTitle title="Completed" />
-      <TaskItems tasks={tasks.filter((task) => task.status === 'completed')} />
+      <TaskItems tasks={completedTasks} />
       <TaskSummary tasks={tasks} />
     </Layout>
   );

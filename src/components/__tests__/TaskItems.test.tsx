@@ -1,5 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import TaskItems from '@/components/TaskItems';
+import App from '@/pages/index';
 import { Task } from '@/types/type';
 
 // - **Scenario: 유저는 Task 리스트를 볼 수 있으며, 완료되지 않은 테스크는 상단에, 완료된 테스크는 리스트 하단에 표시됩니다.**
@@ -17,10 +18,19 @@ import { Task } from '@/types/type';
 const mockTasks: Task[] = [
   {
     id: '1',
-    title: 'Test Task 1',
-    content: 'This is a test task.',
+    title: '테스트 1 - incompleted',
+    content: '테스트1 자세한내용',
     categories: ['work', 'urgent'],
     status: 'inProgress',
+    createdDateTime: new Date(),
+    lastModifiedDateTime: new Date(),
+  },
+  {
+    id: '2',
+    title: '테스트 2 - completed',
+    content: '테스트2 자세한내용',
+    categories: ['work', 'urgent'],
+    status: 'completed',
     createdDateTime: new Date(),
     lastModifiedDateTime: new Date(),
   },
@@ -29,7 +39,13 @@ const mockTasks: Task[] = [
 describe('TaskItems', () => {
   test('TaskItems 컴포넌트에 tasklist가 있는가?', () => {
     render(<TaskItems tasks={mockTasks} />);
-    const taskElement = screen.getByTestId('task-list');
+    const taskElement = screen.queryByTestId('task-list');
     expect(taskElement).toBeInTheDocument();
+  });
+
+  test('TaskItems에 들어오는 데이터가 없을때 Empty라는 문구가 뜨는가', () => {
+    render(<TaskItems tasks={[]} />);
+    const emptyElement = screen.getByText(/empty/i);
+    expect(emptyElement).toBeInTheDocument();
   });
 });
