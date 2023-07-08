@@ -16,6 +16,7 @@ const TaskItems: React.FC<TaskItemsProps> = ({ tasks }) => {
       {tasks.map((task, i) => (
         <li
           key={i}
+          data-testid="task"
           className="border-b border-gray-200 p-2 flex justify-between items-center gap-4 hover:bg-gray-300"
         >
           <div className="flex gap-4">

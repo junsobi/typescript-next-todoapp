@@ -22,7 +22,12 @@ const AddTask: React.FC = () => {
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Enter' && task.trim()) {
+    if (
+      e.key === 'Enter' &&
+      e.nativeEvent.isComposing === false &&
+      task.trim()
+      //시작과 끝부분 공백 제거
+    ) {
       handleAddTask();
     }
   };

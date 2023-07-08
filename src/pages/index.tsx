@@ -10,16 +10,6 @@ import { TasksContext } from '@/context/TasksContext';
 const App: React.FC = () => {
   const { tasks } = useContext(TasksContext);
 
-  // const { tasks, loading, error } = useFetchTasks();
-
-  // if (loading) {
-  //   return <div>Loading...</div>;
-  // }
-
-  // if (error) {
-  //   return <div>Error: {error}</div>;
-  // }
-
   const incompletedTasks = tasks?.filter((task) => task.status !== 'completed');
 
   const completedTasks = tasks?.filter((task) => task.status === 'completed');

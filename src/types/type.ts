@@ -4,7 +4,6 @@ export interface Task {
   content: string;
   categories: string[];
   status: 'inProgress' | 'completed';
-
   createdDateTime: Date;
   lastModifiedDateTime: Date;
 }
