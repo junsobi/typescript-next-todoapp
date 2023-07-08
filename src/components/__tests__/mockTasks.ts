@@ -1,0 +1,40 @@
+import { Task } from '@/types/type';
+
+export const mockTasks: Task[] = [
+  {
+    id: '1',
+    title: 'Complete Project',
+    content: 'Finish the remaining tasks for the project',
+    categories: ['Work', 'Project'],
+    status: 'inProgress',
+    createdDateTime: new Date('2023-07-05T10:30:00Z'),
+    lastModifiedDateTime: new Date('2023-07-06T15:45:00Z'),
+  },
+  {
+    id: '2',
+    title: 'Prepare Presentation',
+    content: 'Create slides and practice presentation',
+    categories: ['Work', 'Presentation'],
+    status: 'inProgress',
+    createdDateTime: new Date('2023-07-08T09:15:00Z'),
+    lastModifiedDateTime: new Date('2023-07-08T14:30:00Z'),
+  },
+  {
+    id: '3',
+    title: 'Buy Groceries',
+    content: "Purchase items for the week's meals",
+    categories: ['Personal', 'Shopping'],
+    status: 'completed',
+    createdDateTime: new Date('2023-07-06T16:20:00Z'),
+    lastModifiedDateTime: new Date('2023-07-06T16:20:00Z'),
+  },
+  {
+    id: '4',
+    title: 'Read Book',
+    content: 'Finish reading the novel',
+    categories: ['Personal', 'Reading'],
+    status: 'inProgress',
+    createdDateTime: new Date('2023-07-03T18:00:00Z'),
+    lastModifiedDateTime: new Date('2023-07-05T11:45:00Z'),
+  },
+];
