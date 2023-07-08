@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, fireEvent, screen } from '@testing-library/react';
+import { render, fireEvent, screen, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 import App from '@/pages/index';
 
@@ -15,17 +15,28 @@ import App from '@/pages/index';
 //   - when: 엔터 버튼을 누르면
 //     - then: 아무런 동작도 하지 않는다.
 
+jest.mock('@/hooks/useFetchTasks', () => ({
+  __esModule: true,
+  default: () => ({
+    tasks: [],
+    loading: false,
+    error: null,
+  }),
+}));
+
 describe('AddTask', () => {
-  test('유저가 인풋창에 Task 내용을 입력하고 추가버튼을 누르면 Incompleted 섹션 제일 아래 Task가 추가된다', () => {
+  test('유저가 인풋창에 Task 내용을 입력하고 추가버튼을 누르면 Incompleted 섹션 제일 아래 Task가 추가된다', async () => {
     render(<App />);
 
-    const input = screen.getByPlaceholderText('해야할일...');
+    const input = await waitFor(() =>
+      screen.getByPlaceholderText('해야할일...'),
+    );
     fireEvent.change(input, { target: { value: 'new task' } });
 
     const button = screen.getByText('+');
     fireEvent.click(button);
 
-    const tasks = screen.getAllByTestId('task');
+    const tasks = await waitFor(() => screen.getAllByTestId('task'));
     const newTask = tasks[tasks.length - 1];
 
     expect(newTask).toHaveTextContent('new task');

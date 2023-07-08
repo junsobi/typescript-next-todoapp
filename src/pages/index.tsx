@@ -1,34 +1,37 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import Layout from '@/components/Layout';
 import TaskTitle from '@/components/TaskTitle';
 import AddTask from '@/components/AddTask';
 import useFetchTasks from '@/hooks/useFetchTasks';
 import TaskItems from '@/components/TaskItems';
 import TaskSummary from '@/components/TaskSummary';
+import { TasksContext } from '@/context/TasksContext';
 
 const App: React.FC = () => {
-  const { tasks, loading, error } = useFetchTasks();
+  const { tasks } = useContext(TasksContext);
 
-  if (loading) {
-    return <div>Loading...</div>;
-  }
+  // const { tasks, loading, error } = useFetchTasks();
 
-  if (error) {
-    return <div>Error: {error}</div>;
-  }
+  // if (loading) {
+  //   return <div>Loading...</div>;
+  // }
 
-  const incompletedTasks = tasks.filter((task) => task.status !== 'completed');
+  // if (error) {
+  //   return <div>Error: {error}</div>;
+  // }
 
-  const completedTasks = tasks.filter((task) => task.status === 'completed');
+  const incompletedTasks = tasks?.filter((task) => task.status !== 'completed');
+
+  const completedTasks = tasks?.filter((task) => task.status === 'completed');
 
   return (
     <Layout>
       <AddTask />
       <TaskTitle title="Incompleted" />
-      <TaskItems tasks={incompletedTasks} />
+      {incompletedTasks && <TaskItems tasks={incompletedTasks} />}
       <TaskTitle title="Completed" />
-      <TaskItems tasks={completedTasks} />
-      <TaskSummary tasks={tasks} />
+      {completedTasks && <TaskItems tasks={completedTasks} />}
+      {tasks && <TaskSummary tasks={tasks} />}
     </Layout>
   );
 };
