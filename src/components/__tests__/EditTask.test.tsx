@@ -16,7 +16,7 @@ import { mockTasks } from '@/data/mockTasks';
 //   - when: input창에 변경 내용을 적고 엔터를 누르면
 //     - then: 입력한 내용으로 Task가 변경되고, input창이 없어진다
 
-describe('Edit Task', () => {
+describe('시나리오3 : 유저가 task 내용을 편집한다.', () => {
   test('클릭시 Task 라벨이 input창으로 바뀌고 기존 내용이 적혀있으며, 마지막 글자에 포커스가 있다', () => {
     render(
       <TasksProvider initialTasks={mockTasks}>

@@ -16,7 +16,7 @@ import { Task } from '@/types/type';
 //     - then: 완료된 테스크들은 아래쪽 영역에 표시됩니다.
 //     - and 완료되지 않은 테스크들은 윗쪽 영역에 표시됩니다.
 
-describe('TaskItems', () => {
+describe('시나리오 1 : 유저는 task리스트를 볼수 있으며 내용이 없는경우 empty라는 글씨를 본다.', () => {
   test('TaskItems 컴포넌트에 tasklist가 있는가?', () => {
     render(<TaskItems tasks={mockTasks} testId="task-items" />);
     const taskElement = screen.queryByTestId('task-list');
