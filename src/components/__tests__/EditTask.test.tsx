@@ -6,7 +6,7 @@ import { TasksProvider } from '@/context/TasksContext';
 import App from '@/pages/index';
 import { mockTasks } from '@/data/mockTasks';
 
-// - **Scenario: 유저가 Task 내용을 편집한다**
+// - **Scenario 3: 유저가 Task 내용을 편집한다**
 // - given: Task 가 리스트에 존재할 때
 //   - when: 내용을 변경하고 싶은 Task의 라벨을 클릭하면
 //     - then: input창으로 변경된다

@@ -37,4 +37,13 @@ export const mockTasks: Task[] = [
     createdDateTime: new Date('2023-07-03T18:00:00Z'),
     lastModifiedDateTime: new Date('2023-07-05T11:45:00Z'),
   },
+  {
+    id: '5',
+    title: 'Refactoring',
+    content: 'code Refactoring',
+    categories: ['Personal', 'Shopping'],
+    status: 'completed',
+    createdDateTime: new Date('2023-07-07T16:20:00Z'),
+    lastModifiedDateTime: new Date('2023-07-08T16:20:00Z'),
+  },
 ];

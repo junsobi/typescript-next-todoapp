@@ -18,9 +18,13 @@ const App: React.FC = () => {
     <Layout>
       <AddTask />
       <TaskTitle title="Incompleted" />
-      {incompletedTasks && <TaskItems tasks={incompletedTasks} />}
+      {incompletedTasks && (
+        <TaskItems tasks={incompletedTasks} testId="Incompleted-section" />
+      )}
       <TaskTitle title="Completed" />
-      {completedTasks && <TaskItems tasks={completedTasks} />}
+      {completedTasks && (
+        <TaskItems tasks={completedTasks} testId="Completed-section" />
+      )}
       {tasks && <TaskSummary tasks={tasks} />}
     </Layout>
   );

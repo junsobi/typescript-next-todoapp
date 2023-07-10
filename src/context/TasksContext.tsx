@@ -1,10 +1,12 @@
 import React, { createContext, useState, ReactNode } from 'react';
 import { Task } from '@/types/type';
+import { mockTasks } from '@/data/mockTasks';
 
 interface ContextProps {
   tasks: Task[];
   addTask: (title: string) => void;
   editTask: (id: string, title: string) => void;
+  toggleTask: (id: string) => void;
 }
 
 interface TasksProviderProps {
@@ -46,8 +48,21 @@ export const TasksProvider: React.FC<TasksProviderProps> = ({
     });
   };
 
+  const toggleTask = (id: string) => {
+    setTasks(
+      tasks.map((task) =>
+        task.id === id
+          ? {
+              ...task,
+              status: task.status === 'completed' ? 'inProgress' : 'completed',
+            }
+          : task,
+      ),
+    );
+  };
+
   return (
-    <TasksContext.Provider value={{ tasks, addTask, editTask }}>
+    <TasksContext.Provider value={{ tasks, addTask, editTask, toggleTask }}>
       {children}
     </TasksContext.Provider>
   );
