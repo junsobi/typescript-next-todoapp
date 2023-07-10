@@ -18,7 +18,7 @@ import { mockTasks } from '@/data/mockTasks';
 //     - and: 대기 리스트로 올라간다.
 
 describe('시나리오4 : 유저는 리스트의 테스크들을 완료처리하거나 완료 취소 처리할 수 있다.', () => {
-  test('유저가 미완료 섹션에 있는 테스크의 체크박스를 클릭하면 체크표시되고 취소선이 그어진다', async () => {
+  test('유저가 미완료 섹션에 있는 테스크의 체크박스를 클릭하면 체크표시되고 취소선이 그어지며 완료섹션으로 이동한다.', async () => {
     render(
       <TasksProvider initialTasks={mockTasks}>
         <App />
@@ -49,7 +49,7 @@ describe('시나리오4 : 유저는 리스트의 테스크들을 완료처리하
       expect(task).toHaveClass('line-through');
     });
   });
-  test('유저가 완료 섹션에 있는 테스크의 체크박스를 클릭하면 체크표시, 취소선이 해제된다.', async () => {
+  test('유저가 완료 섹션에 있는 테스크의 체크박스를 클릭하면 체크표시, 취소선이 해제되며 미완료 섹션으로 이동한다.', async () => {
     render(
       <TasksProvider initialTasks={mockTasks}>
         <App />
