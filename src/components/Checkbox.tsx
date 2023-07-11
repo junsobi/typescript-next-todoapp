@@ -3,7 +3,7 @@ import React from 'react';
 type CheckboxProps = {
   className: string;
   checked?: boolean;
-  onClick: (e: React.MouseEvent<HTMLInputElement>) => void;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void; // 이 부분을 수정
 };
 
 const Checkbox = ({ ...props }: CheckboxProps) => {

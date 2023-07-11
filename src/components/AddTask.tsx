@@ -6,27 +6,27 @@ import { TasksContext } from '@/context/TasksContext';
 const AddTask: React.FC = () => {
   const { addTask } = useContext(TasksContext);
 
-  const [task, setTask] = useState('');
+  const [title, setTitle] = useState('');
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setTask(e.target.value);
+    setTitle(e.target.value);
   };
 
   const handleAddTask = () => {
-    if (task.trim()) {
-      if (addTask) {
-        addTask(task);
-        setTask('');
-      }
-    }
+    addTask({
+      title: title.trim(),
+      status: 'inProgress',
+      content: '',
+      categories: [],
+    });
+    setTitle('');
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (
       e.key === 'Enter' &&
       e.nativeEvent.isComposing === false &&
-      task.trim()
-      //시작과 끝부분 공백 제거
+      title.trim()
     ) {
       handleAddTask();
     }
@@ -37,7 +37,7 @@ const AddTask: React.FC = () => {
       <Input
         className="w-11/12 h-10 mb-8 rounded pl-10"
         placeholder="해야할일..."
-        value={task}
+        value={title}
         onChange={handleChange}
         onKeyDown={handleKeyDown}
       />

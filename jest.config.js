@@ -4,6 +4,7 @@ module.exports = {
   transform: {
     '^.+\\.tsx?$': 'babel-jest',
   },
+
   moduleNameMapper: {
     '\\.(css|less|sass|scss)$': 'identity-obj-proxy',
     '^@/(.*)$': '<rootDir>/src/$1',
@@ -13,7 +14,7 @@ module.exports = {
   testPathIgnorePatterns: ['/node_modules/', '.next/'],
   globals: {
     'ts-jest': {
-      tsconfig: '<rootDir>/tsconfig.jest.json',
+      tsconfig: '<rootDir>/tsconfig.json',
     },
   },
 };

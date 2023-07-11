@@ -1,12 +1,18 @@
 import React, { createContext, useState, ReactNode } from 'react';
 import { Task } from '@/types/type';
-import { mockTasks } from '@/data/mockTasks';
+import { v4 as uuidv4 } from 'uuid';
 
 interface ContextProps {
   tasks: Task[];
-  addTask: (title: string) => void;
-  editTask: (id: string, title: string) => void;
-  toggleTask: (id: string) => void;
+  addTask: (
+    task: Omit<Task, 'id' | 'createdDateTime' | 'lastModifiedDateTime'>,
+  ) => void;
+  editTask: (
+    task: Pick<Task, 'id'> &
+      Omit<Task, 'createdDateTime' | 'lastModifiedDateTime'>,
+  ) => void;
+  //id를 가지고 있지만 , 만든시간,수정시간은 가지고잇지않는 타입의 객체를 매개변수로 받겠다.
+  toggleTask: (task: Task) => void;
 }
 
 interface TasksProviderProps {
@@ -14,7 +20,14 @@ interface TasksProviderProps {
   initialTasks?: Task[];
 }
 
-export const TasksContext = createContext<Partial<ContextProps>>({});
+export const TasksContext = createContext<ContextProps>({
+  tasks: [],
+  addTask: () => undefined,
+  editTask: () => undefined,
+  toggleTask: () => undefined,
+});
+//더미함수를 주어 비즈니스로직에서 ? 를 안써도되게함
+//실제구현에선 더미함수를 대체하게될거임.
 
 export const TasksProvider: React.FC<TasksProviderProps> = ({
   children,
@@ -22,36 +35,39 @@ export const TasksProvider: React.FC<TasksProviderProps> = ({
 }) => {
   const [tasks, setTasks] = useState<Task[]>(initialTasks);
 
-  const addTask = (title: string) => {
+  const addTask = (
+    taskToAdd: Omit<Task, 'id' | 'createdDateTime' | 'lastModifiedDateTime'>,
+  ) => {
     setTasks((currentTasks) => [
       ...currentTasks,
       {
-        id: Math.random().toString(),
-        title,
+        ...taskToAdd,
+        id: uuidv4(),
         status: 'inProgress',
-        content: '',
-        categories: [],
         createdDateTime: new Date(),
         lastModifiedDateTime: new Date(),
       },
     ]);
   };
 
-  const editTask = (id: string, newTitle: string) => {
+  const editTask = (
+    taskToEdit: Pick<Task, 'id'> &
+      Omit<Task, 'createdDateTime' | 'lastModifiedDateTime'>,
+  ) => {
     setTasks((currentTasks) => {
       return currentTasks.map((task) => {
-        if (task.id === id) {
-          return { ...task, title: newTitle, lasModifiedDateTime: new Date() };
+        if (task.id === taskToEdit.id) {
+          return { ...task, ...taskToEdit, lastModifiedDateTime: new Date() };
         }
         return task;
       });
     });
   };
 
-  const toggleTask = (id: string) => {
-    setTasks(
-      tasks.map((task) =>
-        task.id === id
+  const toggleTask = (taskToToggle: Task) => {
+    setTasks((currentTasks) =>
+      currentTasks.map((task) =>
+        task.id === taskToToggle.id
           ? {
               ...task,
               status: task.status === 'completed' ? 'inProgress' : 'completed',
@@ -60,7 +76,6 @@ export const TasksProvider: React.FC<TasksProviderProps> = ({
       ),
     );
   };
-
   return (
     <TasksContext.Provider value={{ tasks, addTask, editTask, toggleTask }}>
       {children}

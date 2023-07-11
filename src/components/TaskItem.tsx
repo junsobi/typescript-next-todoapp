@@ -22,10 +22,11 @@ const TaskItem: React.FC<TaskItemProps> = ({ task }) => {
   };
 
   const saveEdit = () => {
-    if (editTask) {
-      editTask(task.id, newTaskTitle || '');
-      setIsEditing(false);
-    }
+    editTask({
+      ...task,
+      title: newTaskTitle || '',
+    });
+    setIsEditing(false);
   };
 
   const handleInputBlur = () => {
@@ -38,10 +39,8 @@ const TaskItem: React.FC<TaskItemProps> = ({ task }) => {
     }
   };
 
-  const handleCheckboxClick = () => {
-    if (toggleTask) {
-      toggleTask(task.id);
-    }
+  const handleCheckboxClick = (e: React.ChangeEvent<HTMLInputElement>) => {
+    toggleTask(task);
   };
 
   return (
@@ -53,7 +52,7 @@ const TaskItem: React.FC<TaskItemProps> = ({ task }) => {
         <Checkbox
           className="task-check"
           checked={task.status === 'completed'}
-          onClick={handleCheckboxClick}
+          onChange={handleCheckboxClick}
           aria-label={task.title}
         />
 
