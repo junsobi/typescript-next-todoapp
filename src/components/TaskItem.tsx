@@ -50,6 +50,7 @@ const TaskItem: React.FC<TaskItemProps> = ({ task }) => {
     >
       <div className="flex gap-4 w-full">
         <Checkbox
+          name="checkbox"
           className="task-check"
           checked={task.status === 'completed'}
           onChange={handleCheckboxClick}

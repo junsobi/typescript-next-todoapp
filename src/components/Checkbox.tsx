@@ -1,9 +1,10 @@
 import React from 'react';
 
 type CheckboxProps = {
+  name: string;
   className: string;
   checked?: boolean;
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void; // 이 부분을 수정
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 };
 
 const Checkbox = ({ ...props }: CheckboxProps) => {

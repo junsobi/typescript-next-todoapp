@@ -35,6 +35,7 @@ const AddTask: React.FC = () => {
   return (
     <div className="flex justify-between ">
       <Input
+        id="taskInput"
         className="w-11/12 h-10 mb-8 rounded pl-10"
         placeholder="해야할일..."
         value={title}
