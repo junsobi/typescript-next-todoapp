@@ -54,8 +54,9 @@ describe('시나리오3 : 유저가 task 내용을 편집한다.', () => {
     //테스트 코드에서는 실제 dom에 연결된 이벤트 헨들러를 호출할 수 없다....
 
     await waitFor(() => {
-      const newTaskLabel = screen.getByText('Complete Project - 수정');
-      expect(newTaskLabel).toBeInTheDocument();
+      expect(
+        screen.getByDisplayValue('Complete Project - 수정'),
+      ).toBeInTheDocument();
     });
   });
 
@@ -80,8 +81,9 @@ describe('시나리오3 : 유저가 task 내용을 편집한다.', () => {
     });
 
     await waitFor(() => {
-      const newTaskLabel = screen.getByText('Complete Project - 수정');
-      expect(newTaskLabel).toBeInTheDocument();
+      expect(
+        screen.getByDisplayValue('Complete Project - 수정'),
+      ).toBeInTheDocument();
     });
   });
 });
