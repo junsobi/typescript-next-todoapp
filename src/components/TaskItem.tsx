@@ -7,6 +7,7 @@ import useTaskInput from '@/hooks/useTaskInput';
 import useTaskText from '@/hooks/useTaskText';
 import useCheckbox from '@/hooks/useCheckbox';
 import useEditable from '@/hooks/useEditable';
+import useDeleteBtn from '@/hooks/useDeleteBtn';
 import TaskLayout from '@/components/TaskItemLayout';
 
 type TaskItemProps = {
@@ -18,6 +19,7 @@ const TaskItem: React.FC<TaskItemProps> = ({ task }) => {
   const inputProps = useTaskInput(task.title, task);
   const textProps = useTaskText(task, startEditing);
   const checkboxProps = useCheckbox(task);
+  const deleteBtnProps = useDeleteBtn(task);
 
   return (
     <TaskLayout>
@@ -26,7 +28,7 @@ const TaskItem: React.FC<TaskItemProps> = ({ task }) => {
 
         {isEditing ? <Input {...inputProps} /> : <span {...textProps} />}
       </div>
-      <Button className="delete-btn">🗑️</Button>
+      <Button {...deleteBtnProps} />
     </TaskLayout>
   );
 };
