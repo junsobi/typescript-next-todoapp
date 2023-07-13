@@ -7,7 +7,7 @@ import { mockTasks } from '@/data/mockTasks';
 
 const App: React.FC = () => {
   return (
-    <TasksProvider initialTasks={mockTasks}>
+    <TasksProvider>
       <Layout>
         <AddTask />
         <TasksSection />

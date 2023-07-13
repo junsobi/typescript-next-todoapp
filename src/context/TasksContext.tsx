@@ -1,6 +1,10 @@
-import React, { createContext, useState, ReactNode } from 'react';
+import React, { createContext, useState, ReactNode, useEffect } from 'react';
 import { Task } from '@/types/type';
 import { v4 as uuidv4 } from 'uuid';
+import {
+  saveTasksToLocalStorage,
+  loadTasksFromLocalStorage,
+} from '@/utils/storage';
 
 interface ContextProps {
   tasks: Task[];
@@ -19,7 +23,6 @@ interface ContextProps {
 
 interface TasksProviderProps {
   children: ReactNode;
-  initialTasks?: Task[];
 }
 
 export const TasksContext = createContext<ContextProps>({
@@ -33,11 +36,21 @@ export const TasksContext = createContext<ContextProps>({
 //더미함수를 주어 비즈니스로직에서 ? 를 안써도되게함
 //실제구현에선 더미함수를 대체하게될거임.
 
-export const TasksProvider: React.FC<TasksProviderProps> = ({
-  children,
-  initialTasks = [],
-}) => {
-  const [tasks, setTasks] = useState<Task[]>(initialTasks);
+export const TasksProvider: React.FC<TasksProviderProps> = ({ children }) => {
+  const [tasks, setTasks] = useState<Task[]>([]);
+
+  useEffect(() => {
+    const storedTasks = loadTasksFromLocalStorage();
+    if (storedTasks) {
+      setTasks(storedTasks);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (tasks.length > 0) {
+      saveTasksToLocalStorage(tasks);
+    }
+  }, [tasks]);
 
   const addTask = (
     taskToAdd: Omit<Task, 'id' | 'createdDateTime' | 'lastModifiedDateTime'>,
