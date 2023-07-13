@@ -49,30 +49,30 @@ describe('시나리오3 : 유저가 task 내용을 편집한다.', () => {
     await waitFor(() => {
       expect(screen.getByText('Complete Project - 수정')).toBeInTheDocument();
     });
+  });
 
-    test('input창에 변경 내용을 적고 엔터를 누르면 입력한 내용으로 Task가 변경되고, input창이 없어진다', async () => {
-      render(
-        <TasksProvider>
-          <App />
-        </TasksProvider>,
-      );
+  test('input창에 변경 내용을 적고 엔터를 누르면 입력한 내용으로 Task가 변경되고, input창이 없어진다', async () => {
+    render(
+      <TasksProvider>
+        <App />
+      </TasksProvider>,
+    );
 
-      const taskLabel = screen.getByText('Complete Project');
-      fireEvent.click(taskLabel);
+    const taskLabel = screen.getByText('Complete Project');
+    fireEvent.click(taskLabel);
 
-      const taskInput = screen.getByDisplayValue('Complete Project');
+    const taskInput = screen.getByDisplayValue('Complete Project');
 
-      fireEvent.change(taskInput, {
-        target: { value: 'Complete Project - 수정' },
-      });
+    fireEvent.change(taskInput, {
+      target: { value: 'Complete Project - 수정' },
+    });
 
-      act(() => {
-        fireEvent.keyDown(taskInput, { key: 'Enter', code: 'Enter' });
-      });
+    act(() => {
+      fireEvent.keyDown(taskInput, { key: 'Enter', code: 'Enter' });
+    });
 
-      await waitFor(() => {
-        expect(screen.getByText('Complete Project - 수정')).toBeInTheDocument();
-      });
+    await waitFor(() => {
+      expect(screen.getByText('Complete Project - 수정')).toBeInTheDocument();
     });
   });
 });

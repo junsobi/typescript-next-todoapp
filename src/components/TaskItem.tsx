@@ -3,19 +3,24 @@ import Checkbox from './Checkbox';
 import Button from './Button';
 import { Task } from '@/types/type';
 import { TasksContext } from '@/context/TasksContext';
+
 type TaskItemProps = {
   task: Task;
 };
+
 const TaskItem: React.FC<TaskItemProps> = ({ task }) => {
-  const { editTask, toggleTask } = useContext(TasksContext);
+  const { editTask, toggleTask, deleteTask } = useContext(TasksContext);
   const [isEditing, setIsEditing] = useState(false);
   const [newTaskTitle, setNewTaskTitle] = useState(task.title);
+
   const handleLabelClick = () => {
     setIsEditing(true);
   };
+
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setNewTaskTitle(e.target.value);
   };
+
   const saveEdit = () => {
     editTask({
       ...task,
@@ -23,17 +28,25 @@ const TaskItem: React.FC<TaskItemProps> = ({ task }) => {
     });
     setIsEditing(false);
   };
+
   const handleInputBlur = () => {
     saveEdit();
   };
+
   const handleInputKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
       saveEdit();
     }
   };
+
   const handleCheckboxClick = (e: React.ChangeEvent<HTMLInputElement>) => {
     toggleTask(task);
   };
+
+  const handleDeleteButtonClick = () => {
+    deleteTask(task.id);
+  };
+
   return (
     <li
       data-testid="task"
@@ -67,8 +80,11 @@ const TaskItem: React.FC<TaskItemProps> = ({ task }) => {
           </span>
         )}
       </div>
-      <Button className="delete-btn">🗑️</Button>
+      <Button className="delete-btn" onClick={handleDeleteButtonClick}>
+        🗑️
+      </Button>
     </li>
   );
 };
+
 export default TaskItem;
