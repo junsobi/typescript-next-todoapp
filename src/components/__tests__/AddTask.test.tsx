@@ -66,6 +66,27 @@ describe('시나리오 2 : 유저는 인풋창에 해야되는 일들을 입력�
     });
   });
 
+  test('유저가 인풋창에 Task 내용을 입력하고 ESC를 누르면 입력한 내용이 지워지고 인풋창에 포커스가 사라지며, 다시 placeholder가 보인다', async () => {
+    render(
+      <TasksProvider>
+        <App />
+      </TasksProvider>,
+    );
+
+    const input = screen.getByPlaceholderText('해야할일...');
+    fireEvent.change(input, { target: { value: 'new task' } });
+
+    act(() => {
+      fireEvent.keyDown(input, { key: 'Escape', code: 'Escape' });
+    });
+
+    await waitFor(() => {
+      expect(input).toHaveValue('');
+      expect(input).not.toHaveFocus();
+      expect(input).toHaveAttribute('placeholder', '해야할일...');
+    });
+  });
+
   test('유저가 인풋창에 아무것도 입력하지 않았을 때 추가 버튼을 누르면 아무런 동작도 하지 않는다', async () => {
     render(<App />);
 

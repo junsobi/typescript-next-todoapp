@@ -75,4 +75,27 @@ describe('시나리오3 : 유저가 task 내용을 편집한다.', () => {
       expect(screen.getByText('Complete Project - 수정')).toBeInTheDocument();
     });
   });
+  test('input창에 변경 내용을 적고 esc를 누르면 입력한 내용이 취소되고 원래 Task 내용으로 돌아가며, input창이 없어진다', async () => {
+    render(
+      <TasksProvider>
+        <App />
+      </TasksProvider>,
+    );
+
+    const taskLabel = screen.getByText('Complete Project');
+    fireEvent.click(taskLabel);
+
+    const taskInput = screen.getByDisplayValue('Complete Project');
+    fireEvent.change(taskInput, {
+      target: { value: 'Complete Project - 수정' },
+    });
+
+    act(() => {
+      fireEvent.keyDown(taskInput, { key: 'Escape', code: 'Escape' });
+    });
+
+    await waitFor(() => {
+      expect(screen.getByText('Complete Project')).toBeInTheDocument();
+    });
+  });
 });

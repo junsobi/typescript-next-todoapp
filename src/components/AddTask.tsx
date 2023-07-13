@@ -1,41 +1,49 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useRef } from 'react';
 import Input from './Input';
 import Button from './Button';
 import { TasksContext } from '@/context/TasksContext';
 
 const AddTask: React.FC = () => {
   const { addTask } = useContext(TasksContext);
-
   const [title, setTitle] = useState('');
+  const inputRef = useRef<HTMLInputElement>(null);
+  // 인풋 엘리먼트에 대한 참조 생성
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(e.target.value);
   };
 
-  const handleAddTask = () => {
-    addTask({
-      title: title.trim(),
-      status: 'inProgress',
-      content: '',
-      categories: [],
-    });
-    setTitle('');
+  const createTask = () => {
+    if (title.trim()) {
+      addTask({
+        title: title.trim(),
+        status: 'inProgress',
+        content: '',
+        categories: [],
+      });
+      setTitle('');
+    }
+  };
+
+  const handleAddButtonClick = () => {
+    createTask();
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (
-      e.key === 'Enter' &&
-      e.nativeEvent.isComposing === false &&
-      title.trim()
-    ) {
-      handleAddTask();
+    if (e.key === 'Enter' && e.nativeEvent.isComposing === false) {
+      createTask();
+    }
+    if (e.key === 'Escape') {
+      setTitle('');
+      inputRef.current?.blur();
     }
   };
 
   return (
     <div className="flex justify-between ">
-      <Input
+      <input
         id="taskInput"
+        ref={inputRef}
         className="w-11/12 h-10 mb-8 rounded pl-10"
         placeholder="해야할일..."
         value={title}
@@ -45,7 +53,7 @@ const AddTask: React.FC = () => {
       <div className="flex justify-end w-1/12">
         <Button
           className="addTask w-10 h-10 rounded bg-gray-300"
-          onClick={handleAddTask}
+          onClick={handleAddButtonClick}
         >
           +
         </Button>

@@ -1,51 +1,27 @@
-import React, { useState, useContext } from 'react';
+import React from 'react';
 import Checkbox from './Checkbox';
 import Button from './Button';
 import { Task } from '@/types/type';
 import { TasksContext } from '@/context/TasksContext';
+import { useTaskItem } from '@/hooks/useTaskItem';
+import TaskText from './TaskText';
+import Input from './Input';
 
 type TaskItemProps = {
   task: Task;
 };
 
 const TaskItem: React.FC<TaskItemProps> = ({ task }) => {
-  const { editTask, toggleTask, deleteTask } = useContext(TasksContext);
-  const [isEditing, setIsEditing] = useState(false);
-  const [newTaskTitle, setNewTaskTitle] = useState(task.title);
-
-  const handleLabelClick = () => {
-    setIsEditing(true);
-  };
-
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setNewTaskTitle(e.target.value);
-  };
-
-  const saveEdit = () => {
-    editTask({
-      ...task,
-      title: newTaskTitle || '',
-    });
-    setIsEditing(false);
-  };
-
-  const handleInputBlur = () => {
-    saveEdit();
-  };
-
-  const handleInputKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Enter') {
-      saveEdit();
-    }
-  };
-
-  const handleCheckboxClick = (e: React.ChangeEvent<HTMLInputElement>) => {
-    toggleTask(task);
-  };
-
-  const handleDeleteButtonClick = () => {
-    deleteTask(task.id);
-  };
+  const {
+    newTaskTitle,
+    isEditing,
+    handleLabelClick,
+    handleInputChange,
+    handleInputBlur,
+    handleInputKeyDown,
+    handleCheckboxClick,
+    handleDeleteButtonClick,
+  } = useTaskItem(task);
 
   return (
     <li
@@ -61,7 +37,7 @@ const TaskItem: React.FC<TaskItemProps> = ({ task }) => {
           aria-label={task.title}
         />
         {isEditing ? (
-          <input
+          <Input
             className="w-full"
             value={newTaskTitle}
             onChange={handleInputChange}
@@ -70,14 +46,14 @@ const TaskItem: React.FC<TaskItemProps> = ({ task }) => {
             autoFocus
           />
         ) : (
-          <span
+          <TaskText
             className={
               task.status === 'completed' ? 'w-auto line-through' : 'w-auto'
             }
             onClick={handleLabelClick}
           >
             {task.title}
-          </span>
+          </TaskText>
         )}
       </div>
       <Button className="delete-btn" onClick={handleDeleteButtonClick}>
