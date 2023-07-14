@@ -44,7 +44,7 @@ const AddTask: React.FC = () => {
       <input
         id="taskInput"
         ref={inputRef}
-        className="w-11/12 h-10 mb-8 rounded pl-10"
+        className="w-11/12 h-10 mb-4 rounded pl-10 border"
         placeholder="해야할일..."
         value={title}
         onChange={handleChange}

@@ -9,7 +9,7 @@ type TaskItemsProps = {
 
 const TaskItems: React.FC<TaskItemsProps> = ({ tasks, testId }) => {
   if (tasks.length === 0) {
-    return <div>Empty</div>;
+    return <div className="hidden">Empty</div>;
   }
 
   return (

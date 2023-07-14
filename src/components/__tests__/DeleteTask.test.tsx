@@ -37,11 +37,18 @@ describe('시나리오 5 : 유저가 Task를 삭제한다', () => {
 
     const incompletedSection = screen.getByTestId('Incompleted-section');
 
-    const deleteButtons = within(incompletedSection).getAllByText('🗑️');
-    const lastDeleteButton = deleteButtons[deleteButtons.length - 1];
+    const taskItems = within(incompletedSection).getAllByTestId(/task-/);
+    const lastTaskItem = taskItems[taskItems.length - 1];
+
+    // Trigger the mouse enter event to make the delete button visible
+    act(() => {
+      fireEvent.mouseEnter(lastTaskItem);
+    });
+
+    const deleteButton = within(lastTaskItem).getByText('🗑️');
 
     act(() => {
-      fireEvent.click(lastDeleteButton);
+      fireEvent.click(deleteButton);
     });
 
     await waitFor(() => {

@@ -14,7 +14,7 @@ const TaskSummary: React.FC<TaskSummaryProps> = ({ tasks }) => {
   ).length;
 
   return (
-    <div className="flex justify-between belowPart">
+    <div className="flex justify-between mt-10 belowPart">
       <div>Completed Todos : {completedTasks}</div>
       <div className="deleteButtons flex gap-4">
         <Button {...clearAllProps} />

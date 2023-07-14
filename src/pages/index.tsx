@@ -9,7 +9,6 @@ const App: React.FC = () => {
   return (
     <TasksProvider>
       <Layout>
-        <AddTask />
         <TasksSection />
       </Layout>
     </TasksProvider>

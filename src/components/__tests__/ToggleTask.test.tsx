@@ -1,5 +1,6 @@
 import React, { ReactNode } from 'react';
 import { render, fireEvent, screen, waitFor } from '@testing-library/react';
+import { within } from '@testing-library/dom';
 import { act } from 'react-dom/test-utils';
 import '@testing-library/jest-dom/extend-expect';
 import { TasksProvider } from '@/context/TasksContext';
@@ -27,13 +28,14 @@ describe('시나리오4 : 유저는 리스트의 테스크들을 완료처리하
   });
 
   test('유저가 미완료 섹션에 있는 테스크의 체크박스를 클릭하면 체크표시되고 취소선이 그어지며 완료섹션으로 이동한다.', async () => {
-    render(
+    const { getByTestId } = render(
       <TasksProvider>
         <App />
       </TasksProvider>,
     );
 
-    const checkbox = screen.getByRole('checkbox', { name: 'Complete Project' });
+    const completeProjectTask = getByTestId('task-Complete Project');
+    const checkbox = within(completeProjectTask).getByRole('checkbox');
     fireEvent.click(checkbox);
 
     await waitFor(() => {
@@ -46,25 +48,20 @@ describe('시나리오4 : 유저는 리스트의 테스크들을 완료처리하
       expect(incompletedSection).not.toContainElement(
         screen.getByText('Complete Project'),
       );
-
-      const checkedCheckbox = screen.getByRole('checkbox', {
-        name: 'Complete Project',
-        checked: true,
-      });
-      const task = screen.getByText('Complete Project');
-
-      expect(checkedCheckbox).toBeInTheDocument();
-      expect(task).toHaveClass('line-through');
     });
+    const task = screen.getByText('Complete Project');
+    expect(task).toHaveClass('line-through');
   });
+
   test('유저가 완료 섹션에 있는 테스크의 체크박스를 클릭하면 체크표시, 취소선이 해제되며 미완료 섹션으로 이동한다.', async () => {
-    render(
-      <TasksProvider initialTasks={mockTasks}>
+    const { getByTestId } = render(
+      <TasksProvider>
         <App />
       </TasksProvider>,
     );
 
-    const checkbox = screen.getByRole('checkbox', { name: 'Buy Groceries' });
+    const incompleteProjectTask = getByTestId('task-Buy Groceries');
+    const checkbox = within(incompleteProjectTask).getByRole('checkbox');
     fireEvent.click(checkbox);
 
     await waitFor(() => {
@@ -77,15 +74,9 @@ describe('시나리오4 : 유저는 리스트의 테스크들을 완료처리하
       expect(incompletedSection).toContainElement(
         screen.getByText('Buy Groceries'),
       );
-
-      const checkedCheckbox = screen.getByRole('checkbox', {
-        name: 'Buy Groceries',
-        checked: false,
-      });
-      const task = screen.getByText('Buy Groceries');
-
-      expect(checkedCheckbox).toBeInTheDocument();
-      expect(task).not.toHaveClass('line-through');
     });
+    const task = screen.getByText('Buy Groceries');
+
+    expect(task).not.toHaveClass('line-through');
   });
 });

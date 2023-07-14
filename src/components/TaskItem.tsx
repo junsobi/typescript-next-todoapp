@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Checkbox from './Checkbox';
 import Button from './Button';
 import { Task } from '@/types/type';
@@ -15,27 +15,30 @@ const TaskItem: React.FC<TaskItemProps> = ({ task }) => {
   const {
     newTaskTitle,
     isEditing,
+    isHovered,
     handleLabelClick,
     handleInputChange,
     handleInputBlur,
     handleInputKeyDown,
     handleCheckboxClick,
     handleDeleteButtonClick,
+    handleMouseEnter,
+    handleMouseLeave,
   } = useTaskItem(task);
 
   return (
     <li
-      data-testid="task"
-      className="border-b border-gray-200 p-2 flex justify-between items-center gap-4 hover:bg-gray-300"
+      data-testid={`task-${task.title}`}
+      className="border-b border-gray-200 p-2 flex justify-between items-center gap-4 hover:bg-gray-100"
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
     >
       <div className="flex gap-4 w-full">
         <Checkbox
-          name="checkbox"
-          className="task-check"
           checked={task.status === 'completed'}
           onChange={handleCheckboxClick}
-          aria-label={task.title}
         />
+
         {isEditing ? (
           <Input
             className="w-full"
@@ -48,7 +51,9 @@ const TaskItem: React.FC<TaskItemProps> = ({ task }) => {
         ) : (
           <TaskText
             className={
-              task.status === 'completed' ? 'w-auto line-through' : 'w-auto'
+              task.status === 'completed'
+                ? 'w-auto line-through text-gray-400'
+                : 'w-auto'
             }
             onClick={handleLabelClick}
           >
@@ -56,9 +61,12 @@ const TaskItem: React.FC<TaskItemProps> = ({ task }) => {
           </TaskText>
         )}
       </div>
-      <Button className="delete-btn" onClick={handleDeleteButtonClick}>
-        🗑️
-      </Button>
+
+      {isHovered && (
+        <Button className="delete-btn" onClick={handleDeleteButtonClick}>
+          🗑️
+        </Button>
+      )}
     </li>
   );
 };

@@ -68,7 +68,8 @@ export const TasksProvider: React.FC<TasksProviderProps> = ({ children }) => {
   };
 
   const editTask = (
-    taskToEdit: Omit<Task, 'createdDateTime' | 'lastModifiedDateTime'>,
+    taskToEdit: Pick<Task, 'id'> &
+      Omit<Task, 'createdDateTime' | 'lastModifiedDateTime'>,
   ) => {
     setTasks((currentTasks) => {
       return currentTasks.map((task) => {

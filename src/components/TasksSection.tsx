@@ -3,7 +3,7 @@ import TaskTitle from '@/components/TaskTitle';
 import TaskItems from '@/components/TaskItems';
 import TaskSummary from '@/components/TaskSummary';
 import useTasks from '@/hooks/useTasks';
-
+import GradientDot from './GradientDot';
 const TasksSection: React.FC = () => {
   const { incompletedTasks, completedTasks, tasks } = useTasks();
 

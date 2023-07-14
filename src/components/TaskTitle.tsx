@@ -7,8 +7,8 @@ type TaskTitleProps = {
 };
 
 const TaskTitle: React.FC<TaskTitleProps> = ({ title }) => (
-  <div className="task-container mb-5">
-    <h2 className="text-2xl mb-3">{title}</h2>
+  <div className="task-container mb-5 hidden">
+    <h2 className="text-2xl my-3">{title}</h2>
   </div>
 );
 

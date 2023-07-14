@@ -1,15 +1,18 @@
-import { useState, useContext } from 'react';
+import { useState, useContext, useEffect } from 'react';
 import { Task } from '@/types/type';
 import { TasksContext } from '@/context/TasksContext';
 
 export const useTaskItem = (task: Task) => {
   const { editTask, toggleTask, deleteTask } = useContext(TasksContext);
   const [isEditing, setIsEditing] = useState(false);
-  const [newTaskTitle, setNewTaskTitle] = useState(task.title);
-  const [originalTitle, setOriginalTitle] = useState(task.title);
+  const [newTaskTitle, setNewTaskTitle] = useState('');
+  const [isHovered, setIsHovered] = useState(false); // 추가
+
+  useEffect(() => {
+    setNewTaskTitle(task.title);
+  }, [task]);
 
   const handleLabelClick = () => {
-    setOriginalTitle(task.title);
     setIsEditing(true);
   };
 
@@ -18,12 +21,13 @@ export const useTaskItem = (task: Task) => {
   };
 
   const saveEdit = () => {
-    editTask({ ...task, title: newTaskTitle || '' });
+    if (newTaskTitle.trim() !== '') {
+      editTask({ ...task, title: newTaskTitle.trim() });
+    }
     setIsEditing(false);
   };
 
   const cancelEdit = () => {
-    setNewTaskTitle(originalTitle);
     setIsEditing(false);
   };
 
@@ -34,20 +38,33 @@ export const useTaskItem = (task: Task) => {
     if (e.key === 'Escape') cancelEdit();
   };
 
-  const handleCheckboxClick = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleCheckboxClick = () => {
     toggleTask(task);
   };
 
-  const handleDeleteButtonClick = () => deleteTask(task.id);
+  const handleDeleteButtonClick = () => {
+    deleteTask(task.id);
+  };
+
+  const handleMouseEnter = () => {
+    setIsHovered(true);
+  };
+
+  const handleMouseLeave = () => {
+    setIsHovered(false);
+  };
 
   return {
     newTaskTitle,
     isEditing,
+    isHovered,
     handleLabelClick,
     handleInputChange,
     handleInputBlur,
     handleInputKeyDown,
     handleCheckboxClick,
     handleDeleteButtonClick,
+    handleMouseEnter,
+    handleMouseLeave,
   };
 };
