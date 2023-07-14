@@ -40,7 +40,6 @@ describe('시나리오 5 : 유저가 Task를 삭제한다', () => {
     const taskItems = within(incompletedSection).getAllByTestId(/task-/);
     const lastTaskItem = taskItems[taskItems.length - 1];
 
-    // Trigger the mouse enter event to make the delete button visible
     act(() => {
       fireEvent.mouseEnter(lastTaskItem);
     });

@@ -15,11 +15,15 @@ const Checkbox: React.FC<CheckboxProps> = ({ checked, onChange }) => {
           checked={checked}
           onChange={onChange}
         />
-        <div className="block w-6 h-6 rounded-full border border-gray-300"></div>
+        <div
+          className="block w-6 h-6 rounded-full border border-gray-300"
+          data-testid="checkbox-visible"
+        ></div>
         {checked && (
           <div className="absolute inset-0 flex items-center justify-center">
             <svg
               className="w-3 h-3 fill-current text-blue-500"
+              data-testid="checkbox-svg"
               viewBox="0 0 20 20"
             >
               <path d="M0 11l2-2 5 5L18 3l2 2L7 18z" />

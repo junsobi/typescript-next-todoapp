@@ -11,7 +11,13 @@ module.exports = {
   },
   setupFilesAfterEnv: ['<rootDir>/setupTests.ts'],
   moduleFileExtensions: ['js', 'jsx', 'ts', 'tsx'],
-  testPathIgnorePatterns: ['/node_modules/', '.next/'],
+  watchPathIgnorePatterns: ['<rootDir>/playwright-tests'],
+  testPathIgnorePatterns: [
+    '/node_modules/',
+    '.next/',
+    '.spec.test.',
+    'playwright-tests',
+  ],
   globals: {
     'ts-jest': {
       tsconfig: '<rootDir>/tsconfig.json',

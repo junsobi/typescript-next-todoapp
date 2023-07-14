@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import TaskItems from '@/components/TaskItems';
 import App from '@/pages/index';
-import { mockTasks } from '../../data/mockTasks';
+import { mockTasks } from '../src/data/mockTasks';
 import { Task } from '@/types/type';
 
 // - **Scenario 1: 유저는 Task 리스트를 볼 수 있으며, 완료되지 않은 테스크는 상단에, 완료된 테스크는 리스트 하단에 표시됩니다.**

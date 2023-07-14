@@ -27,6 +27,7 @@
   },
   "devDependencies": {
     "@babel/preset-typescript": "^7.22.5",
+    "@playwright/test": "^1.36.0",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^14.0.0",
     "@types/uuid": "^9.0.2",

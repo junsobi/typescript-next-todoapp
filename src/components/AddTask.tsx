@@ -44,7 +44,7 @@ const AddTask: React.FC = () => {
       <input
         id="taskInput"
         ref={inputRef}
-        className="w-11/12 h-10 mb-4 rounded pl-10 border"
+        className="w-11/12 h-10 mb-4 rounded-xl shadow-md pl-10 border"
         placeholder="해야할일..."
         value={title}
         onChange={handleChange}
@@ -52,7 +52,7 @@ const AddTask: React.FC = () => {
       />
       <div className="flex justify-end w-1/12">
         <Button
-          className="addTask w-10 h-10 rounded bg-gray-300"
+          className="addTask w-10 h-10 rounded bg-gray-300 shadow-md"
           onClick={handleAddButtonClick}
         >
           +
