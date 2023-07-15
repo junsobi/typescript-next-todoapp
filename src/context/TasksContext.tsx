@@ -63,13 +63,16 @@ export const TasksProvider: React.FC<TasksProviderProps> = ({ children }) => {
         status: 'inProgress',
         createdDateTime: new Date(),
         lastModifiedDateTime: new Date(),
+        DueDateTime: taskToAdd.DueDateTime || null,
       },
     ]);
   };
 
   const editTask = (
     taskToEdit: Pick<Task, 'id'> &
-      Omit<Task, 'createdDateTime' | 'lastModifiedDateTime'>,
+      Omit<Task, 'createdDateTime' | 'lastModifiedDateTime' | 'DueDateTime'> & {
+        DueDateTime?: Date | null;
+      },
   ) => {
     setTasks((currentTasks) => {
       return currentTasks.map((task) => {

@@ -7,7 +7,7 @@ type CheckboxProps = {
 
 const Checkbox: React.FC<CheckboxProps> = ({ checked, onChange }) => {
   return (
-    <label className="flex items-center cursor-pointer">
+    <label className="flex items-center cursor-pointer ">
       <div className="relative">
         <input
           type="checkbox"

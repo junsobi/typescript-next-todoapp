@@ -9,6 +9,7 @@ export const mockTasks: Task[] = [
     status: 'inProgress',
     createdDateTime: new Date('2023-07-05T10:30:00Z'),
     lastModifiedDateTime: new Date('2023-07-06T15:45:00Z'),
+    DueDateTime: null,
   },
   {
     id: '2',
@@ -18,6 +19,7 @@ export const mockTasks: Task[] = [
     status: 'inProgress',
     createdDateTime: new Date('2023-07-08T09:15:00Z'),
     lastModifiedDateTime: new Date('2023-07-08T14:30:00Z'),
+    DueDateTime: new Date('2023-07-20T09:00:00Z'),
   },
   {
     id: '3',
@@ -27,6 +29,7 @@ export const mockTasks: Task[] = [
     status: 'completed',
     createdDateTime: new Date('2023-07-06T16:20:00Z'),
     lastModifiedDateTime: new Date('2023-07-06T16:20:00Z'),
+    DueDateTime: new Date('2023-07-30T16:00:00Z'),
   },
   {
     id: '4',
@@ -36,6 +39,7 @@ export const mockTasks: Task[] = [
     status: 'inProgress',
     createdDateTime: new Date('2023-07-03T18:00:00Z'),
     lastModifiedDateTime: new Date('2023-07-05T11:45:00Z'),
+    DueDateTime: new Date('2023-07-31T18:00:00Z'),
   },
   {
     id: '5',
@@ -45,5 +49,6 @@ export const mockTasks: Task[] = [
     status: 'completed',
     createdDateTime: new Date('2023-07-07T16:20:00Z'),
     lastModifiedDateTime: new Date('2023-07-08T16:20:00Z'),
+    DueDateTime: new Date('2023-07-20T16:00:00Z'),
   },
 ];

@@ -1,13 +1,15 @@
 import React, { useState, useContext, useRef } from 'react';
-import Input from './Input';
-import Button from './Button';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
 import { TasksContext } from '@/context/TasksContext';
+import Button from './Button';
 
 const AddTask: React.FC = () => {
   const { addTask } = useContext(TasksContext);
   const [title, setTitle] = useState('');
+  const [dueDate, setDueDate] = useState<Date | null>(null);
+  const [isCalendarOpen, setIsCalendarOpen] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
-  // 인풋 엘리먼트에 대한 참조 생성
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(e.target.value);
@@ -20,8 +22,11 @@ const AddTask: React.FC = () => {
         status: 'inProgress',
         content: '',
         categories: [],
+        DueDateTime: dueDate,
       });
       setTitle('');
+      setDueDate(null);
+      setIsCalendarOpen(false);
     }
   };
 
@@ -35,21 +40,51 @@ const AddTask: React.FC = () => {
     }
     if (e.key === 'Escape') {
       setTitle('');
+      setDueDate(null);
+      setIsCalendarOpen(false);
       inputRef.current?.blur();
     }
   };
 
+  const handleCalendarIconClick = () => {
+    setIsCalendarOpen(!isCalendarOpen);
+  };
+
+  const handleChangeDate = (date: Date) => {
+    setDueDate(date);
+    setIsCalendarOpen(false);
+  };
+
   return (
     <div className="flex justify-between ">
-      <input
-        id="taskInput"
-        ref={inputRef}
-        className="w-11/12 h-10 mb-4 rounded-xl shadow-md pl-10 border"
-        placeholder="해야할일..."
-        value={title}
-        onChange={handleChange}
-        onKeyDown={handleKeyDown}
-      />
+      <div className="relative w-11/12 h-10 mb-4">
+        <input
+          id="taskInput"
+          ref={inputRef}
+          className="rounded-xl shadow-md pl-10 border w-full h-full"
+          placeholder="해야할일..."
+          value={title}
+          onChange={handleChange}
+          onKeyDown={handleKeyDown}
+        />
+        <span
+          className="absolute left-2 top-1/2 transform -translate-y-1/2 cursor-pointer"
+          onClick={handleCalendarIconClick}
+        >
+          📅
+        </span>
+        {isCalendarOpen && (
+          <div className="absolute z-40">
+            <DatePicker
+              className="datepicker absolute z-40"
+              selected={dueDate}
+              onChange={handleChangeDate}
+              inline
+              onClickOutside={() => setIsCalendarOpen(false)}
+            />
+          </div>
+        )}
+      </div>
       <div className="flex justify-end w-1/12">
         <Button
           className="addTask w-10 h-10 rounded bg-gray-300 shadow-md"

@@ -124,3 +124,4 @@
 | status               | 'inProgress' 또는 'completed' | 할 일의 상태             |
 | createdDateTime      | Date                          | 할 일 생성 날짜 및 시간  |
 | lastModifiedDateTime | Date                          | 마지막 수정 날짜 및 시간 |
+| DueDateTime          | Date                          | 마감기한                 |

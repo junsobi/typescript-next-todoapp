@@ -29,7 +29,7 @@ const TaskItem: React.FC<TaskItemProps> = ({ task }) => {
   return (
     <li
       data-testid={`task-${task.title}`}
-      className="border-b border-gray-200 p-2 flex justify-between items-center gap-4 hover:bg-gray-100"
+      className="border-b border-gray-200 p-2 flex justify-between items-center gap-4 hover:bg-gray-100 "
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
