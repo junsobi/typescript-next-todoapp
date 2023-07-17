@@ -15,3 +15,5 @@ export const loadTasksFromLocalStorage = (): Task[] => {
 
   return storedTasks ? JSON.parse(storedTasks) : [];
 };
+
+//try catch

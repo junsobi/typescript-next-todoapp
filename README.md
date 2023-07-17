@@ -10,9 +10,6 @@
 - given: Task 리스트가 존재할 때
   - when: 페이지에 접속하면
     - then: Task 리스트가 보입니다.
-- given: Task 리스트가 존재하지 않을 때
-  - when: 페이지에 접속하면
-    - then: "Empty"라는 문구가 출력됩니다.
 - given: 완료된 테스크와 미완료된 테스크가 모두 존재할 때
   - when: 페이지에 접속하면
     - then: 완료된 테스크들은 아래쪽 영역에 표시됩니다.
@@ -49,7 +46,7 @@
     - then: 입력한 내용으로 Task가 변경되고, input창이 없어진다
   - when: input창에 변경 내용을 적고 엔터를 누르면
     - then: 입력한 내용으로 Task가 변경되고, input창이 없어진다
-  - when : 내용을 입력한뒤 esc를 누르면
+  - when : input창에 변경 내용을 적고 esc를 누르면
     -then: 입력하기 전 내용으로 돌아간다.
 
 ---
@@ -73,8 +70,10 @@
 
 - **Scenario 5: 유저가 Task를 삭제한다**
 - given: 리스트에 Task가 있을 때
-  - when: 해당하는 Task 우측 삭제 버튼을 누르면
-    - then: Task가 삭제되고, 리스트에서 없어진다
+  - when : 해당하는 Task에 호버하면
+    - then : 삭제 버튼이 나온다.
+      - when: 삭제 버튼을 누르면
+        - then: Task가 삭제되고, 리스트에서 없어진다
 
 ---
 

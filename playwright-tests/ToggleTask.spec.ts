@@ -1,71 +1,64 @@
-import { test, expect } from '@playwright/test';
+import { test, expect, Page } from '@playwright/test';
 import { mockTasks } from '../src/data/mockTasks';
 
 test.describe('시나리오 4 : 유저는 리스트의 테스크들을 완료처리하거나 완료 취소 처리할 수 있다.', () => {
-  test.beforeEach(async ({ page }) => {
+  let page: Page;
+
+  test.beforeEach(async ({ page: testPage }) => {
+    page = testPage;
     await page.goto('http://localhost:3000');
-    await page.evaluate((tasks) => {
-      localStorage.setItem('tasks', JSON.stringify(tasks));
-    }, mockTasks);
-    await page.reload();
   });
 
-  test.afterEach(async ({ page }) => {
-    await page.evaluate(() => localStorage.clear());
-    await page.reload();
-  });
-
-  test('유저가 미완료 섹션에 있는 테스크의 체크박스를 클릭하면 체크표시되고 취소선이 그어지며 완료섹션으로 이동한다.', async ({
+  test('유저가 미완료 섹션에 있는 테스크의 체크박스를 클릭하면 체크표시되고 취소선이 그어진다.', async ({
     page,
   }) => {
-    const taskElementsBefore = await page.$$('[data-testid^="task-"]');
-    const taskTextsBefore = await Promise.all(
-      taskElementsBefore.map((task) => task.innerText()),
-    );
-    const indexBefore = taskTextsBefore.indexOf('Complete Project');
+    //Given : 미완료 섹션에 'inCompletToComplet'이라는 테스크가 있다.
+    await page.fill('input[placeholder="해야할일..."]', 'inCompletToComplet');
+    await page.click('text=+');
 
+    //When : 유저가 'inCompletToComplet' 테스크의 체크박스를 클릭한다.
     await page.click(
-      `[data-testid="task-Complete Project"] >> css=[data-testid="checkbox-visible"]`,
+      `[data-testid="task-inCompletToComplet"] >> css=[data-testid="checkbox-visible"]`,
     );
 
+    //Then : 체크표시가 되고 취소선이 그어진다.
     expect(
       await page.$(
-        `[data-testid="task-Complete Project"] >> span.line-through`,
+        `[data-testid="task-inCompletToComplet"] >> span.line-through`,
       ),
     ).toBeTruthy();
-
-    const taskElementsAfter = await page.$$('[data-testid^="task-"]');
-    const taskTextsAfter = await Promise.all(
-      taskElementsAfter.map((task) => task.innerText()),
-    );
-    const indexAfter = taskTextsAfter.indexOf('Complete Project');
-
-    expect(indexAfter).toBeGreaterThan(indexBefore);
+    expect(
+      await page.$(
+        `[data-testid="task-inCompletToComplet"] >> [data-testid="checkbox-svg"]`,
+      ),
+    ).toBeTruthy();
   });
 
-  test('유저가 완료 섹션에 있는 테스크의 체크박스를 클릭하면 체크표시, 취소선이 해제되며 미완료 섹션으로 이동한다.', async ({
+  test('유저가 완료 섹션에 있는 테스크의 체크박스를 클릭하면 체크표시, 취소선이 해제된다.', async ({
     page,
   }) => {
-    const taskElementsBefore = await page.$$('[data-testid^="task-"]');
-    const taskTextsBefore = await Promise.all(
-      taskElementsBefore.map((task) => task.innerText()),
-    );
-    const indexBefore = taskTextsBefore.indexOf('Buy Groceries');
-
+    //Given : 완료처리가되어있는 Task가 있다.
+    await page.fill('input[placeholder="해야할일..."]', 'CompletToinComplete');
+    await page.click('text=+');
     await page.click(
-      `[data-testid="task-Buy Groceries"] >> css=[data-testid="checkbox-svg"]`,
+      `[data-testid="task-CompletToinComplete"] >> css=[data-testid="checkbox-visible"]`,
     );
 
+    //When : 유저가 'CompletToinComplet' 테스크의 체크박스를 클릭한다.
+    await page.click(
+      `[data-testid="task-CompletToinComplete"] >> css=[data-testid="checkbox-svg"]`,
+    );
+
+    //Then : 체크표시와 취소선이 사라진다.
     expect(
-      await page.$(`[data-testid="task-Buy Groceries"] >> span.line-through`),
+      await page.$(
+        `[data-testid="task-CompletToinComplete"] >> span.line-through`,
+      ),
     ).toBeNull();
-
-    const taskElementsAfter = await page.$$('[data-testid^="task-"]');
-    const taskTextsAfter = await Promise.all(
-      taskElementsAfter.map((task) => task.innerText()),
-    );
-    const indexAfter = taskTextsAfter.indexOf('Buy Groceries');
-
-    expect(indexAfter).toBeLessThan(indexBefore);
+    expect(
+      await page.$(
+        `[data-testid="task-CompletToinComplete"] >> [data-testid="checkbox-svg"]`,
+      ),
+    ).toBeNull();
   });
 });

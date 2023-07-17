@@ -6,5 +6,5 @@ export interface Task {
   status: 'inProgress' | 'completed';
   createdDateTime: Date;
   lastModifiedDateTime: Date;
-  DueDateTime: Date;
+  DueDateTime: Date | null;
 }
