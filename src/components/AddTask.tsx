@@ -55,6 +55,27 @@ const AddTask: React.FC = () => {
     setIsCalendarOpen(false);
   };
 
+  const handleDueDateTextClick = () => {
+    if (dueDate) {
+      setDueDate(null);
+    }
+  };
+
+  const getDueDateText = (): string | null => {
+    if (dueDate) {
+      const diffTime = dueDate.getTime() - today.getTime();
+      const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+      if (diffDays > 0) {
+        return `D-${diffDays}`;
+      } else if (diffDays === 0) {
+        return 'D-day';
+      }
+    }
+    return null;
+  };
+
+  const today = new Date();
+
   return (
     <div className="flex justify-between ">
       <div className="relative w-11/12 h-10 mb-4">
@@ -68,7 +89,7 @@ const AddTask: React.FC = () => {
           onKeyDown={handleKeyDown}
         />
         <span
-          className="absolute left-2 top-1/2 transform -translate-y-1/2 cursor-pointer"
+          className="absolute left-3 top-1/2 transform -translate-y-1/2 cursor-pointer"
           onClick={handleCalendarIconClick}
         >
           📅
@@ -79,10 +100,20 @@ const AddTask: React.FC = () => {
               className="datepicker absolute z-40"
               selected={dueDate}
               onChange={handleChangeDate}
+              minDate={today}
               inline
               onClickOutside={() => setIsCalendarOpen(false)}
             />
           </div>
+        )}
+
+        {getDueDateText() && (
+          <span
+            className="dueDateText absolute left-0 bottom-10 px-2 py-1 rounded bg-gray-200 text-gray-600 text-xs cursor-pointer"
+            onClick={handleDueDateTextClick}
+          >
+            {getDueDateText()}
+          </span>
         )}
       </div>
       <div className="flex justify-end w-1/12">

@@ -14,7 +14,8 @@ const TaskItem: React.FC<TaskItemProps> = ({ task }) => {
   const { editTask, toggleTask, deleteTask } = useContext(TasksContext);
   const [isEditing, setIsEditing] = useState(false);
   const [newTaskTitle, setNewTaskTitle] = useState('');
-  const [isHovered, setIsHovered] = useState(false); // 추가
+  const [prevTaskTitle, setPrevTaskTitle] = useState('');
+  const [isHovered, setIsHovered] = useState(false);
 
   useEffect(() => {
     setNewTaskTitle(task.title);
@@ -22,6 +23,7 @@ const TaskItem: React.FC<TaskItemProps> = ({ task }) => {
 
   const handleLabelClick = () => {
     setIsEditing(true);
+    setPrevTaskTitle(newTaskTitle); // 현재 값 저장
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -37,6 +39,7 @@ const TaskItem: React.FC<TaskItemProps> = ({ task }) => {
 
   const cancelEdit = () => {
     setIsEditing(false);
+    setNewTaskTitle(prevTaskTitle); // 이전 값으로 복원
   };
 
   const handleInputBlur = () => saveEdit();
@@ -61,6 +64,25 @@ const TaskItem: React.FC<TaskItemProps> = ({ task }) => {
   const handleMouseLeave = () => {
     setIsHovered(false);
   };
+
+  const getDueDateText = (): string | null => {
+    if (task.DueDateTime) {
+      const today = new Date();
+      const dueDate = new Date(task.DueDateTime);
+      const diffTime = dueDate.getTime() - today.getTime();
+      const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+      if (diffDays === 0) {
+        return 'D-day';
+      } else if (diffDays < 0) {
+        return `D+${Math.abs(diffDays)}`;
+      } else {
+        return `D-${diffDays}`;
+      }
+    }
+    return null;
+  };
+
   return (
     <li
       data-testid={`task-${task.title}`}
@@ -84,16 +106,23 @@ const TaskItem: React.FC<TaskItemProps> = ({ task }) => {
             autoFocus
           />
         ) : (
-          <TaskText
-            className={
-              task.status === 'completed'
-                ? 'w-auto line-through text-gray-400'
-                : 'w-auto'
-            }
-            onClick={handleLabelClick}
-          >
-            {task.title}
-          </TaskText>
+          <>
+            {task.DueDateTime && (
+              <span className="dueDateText px-2 py-1 rounded bg-gray-200 text-gray-600 text-xs cursor-pointer ">
+                {getDueDateText()}
+              </span>
+            )}
+            <TaskText
+              className={
+                task.status === 'completed'
+                  ? 'w-auto line-through text-gray-400'
+                  : 'w-auto !text-gray-900'
+              }
+              onClick={handleLabelClick}
+            >
+              {task.title}
+            </TaskText>
+          </>
         )}
       </div>
 
