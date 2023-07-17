@@ -118,10 +118,10 @@ const AddTask: React.FC = () => {
       </div>
       <div className="flex justify-end w-1/12">
         <Button
-          className="addTask w-10 h-10 rounded bg-gray-300 shadow-md"
+          className="addTask w-10 h-10 rounded bg-gray-200 hover:bg-gray-300 shadow-md"
           onClick={handleAddButtonClick}
         >
-          +
+          🔥
         </Button>
       </div>
     </div>

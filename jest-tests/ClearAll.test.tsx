@@ -8,7 +8,7 @@ import {
 } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 import { TasksProvider } from '@/context/TasksContext';
-import App from '@/pages/index';
+import App from '@/pages/usecontext/index';
 import { mockTasks } from '@/data/mockTasks';
 
 describe('시나리오 6 : Clear All 버튼을 눌러 완료된 task 들을 삭제한다.', () => {

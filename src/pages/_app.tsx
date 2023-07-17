@@ -1,3 +1,4 @@
+import Layout from '@/components/Layout';
 import { TasksProvider } from '@/context/TasksContext';
 import { mockTasks } from '@/data/mockTasks';
 import '@/styles/globals.css';

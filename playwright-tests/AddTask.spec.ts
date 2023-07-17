@@ -13,7 +13,7 @@ test.describe('시나리오 2 : 유저는 인풋창에 해야되는 일들을 �
     await page.fill('input[placeholder="해야할일..."]', 'new task');
 
     //When : 유저가 추가버튼을 누르면
-    await page.click('text=+');
+    await page.click('text=🔥');
 
     //Then : Task가 추가된다
     const newTask = await page.$(`[data-testid="task-new task"]`);
@@ -37,7 +37,7 @@ test.describe('시나리오 2 : 유저는 인풋창에 해야되는 일들을 �
     await page.fill('input[placeholder="해야할일..."]', '');
 
     //When : 유저가 추가버튼을 누르면
-    await page.click('text=+');
+    await page.click('text=🔥');
 
     //Then : 아무런 동작도 하지 않는다
     const tasks = await page.$$('[data-testid="Incompleted-section"]');

@@ -3,7 +3,7 @@ import { act } from 'react-dom/test-utils';
 import { render, fireEvent, screen, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 import { TasksProvider } from '@/context/TasksContext';
-import App from '@/pages/index';
+import App from '@/pages/usecontext/index';
 
 // - **Scenario 2: 유저는 인풋창에 해야되는 일들을 입력하고 리스트에 추가한다.**
 // - given: 유저가 인풋창에 Task 내용을 입력했을 때

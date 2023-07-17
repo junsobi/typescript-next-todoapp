@@ -40,14 +40,20 @@ export const TasksProvider: React.FC<TasksProviderProps> = ({ children }) => {
   const [tasks, setTasks] = useState<Task[]>([]);
 
   useEffect(() => {
-    const storedTasks = loadTasksFromLocalStorage();
-    if (storedTasks) {
-      setTasks(storedTasks);
+    const loadAndSetTasks = async () => {
+      const storedTasks = loadTasksFromLocalStorage();
+      if (storedTasks) {
+        setTasks(storedTasks);
+      }
+    };
+
+    if (typeof window !== 'undefined') {
+      loadAndSetTasks();
     }
   }, []);
 
   useEffect(() => {
-    if (tasks.length > 0) {
+    if (tasks.length > 0 && typeof window !== 'undefined') {
       saveTasksToLocalStorage(tasks);
     }
   }, [tasks]);
@@ -107,6 +113,9 @@ export const TasksProvider: React.FC<TasksProviderProps> = ({ children }) => {
     setTasks((currentTasks) =>
       currentTasks.filter((task) => task.status !== 'completed'),
     );
+    saveTasksToLocalStorage(
+      tasks.filter((task) => task.status !== 'completed'),
+    );
   };
 
   return (
@@ -124,3 +133,5 @@ export const TasksProvider: React.FC<TasksProviderProps> = ({ children }) => {
     </TasksContext.Provider>
   );
 };
+
+export default TasksProvider;

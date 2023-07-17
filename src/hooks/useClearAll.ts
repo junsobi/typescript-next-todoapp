@@ -10,8 +10,8 @@ const useClearAll = () => {
 
   return {
     onClick: handleClearAll,
-    className: 'bg-gray-400 text-white px-3 py-1 rounded hover:bg-gray-500',
-    children: 'Clear All',
+    className: 'bg-gray-200  px-3 py-1 rounded hover:bg-gray-300 shadow-md',
+    children: '🧹',
   };
 };
 

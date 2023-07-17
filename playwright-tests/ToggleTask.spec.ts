@@ -14,7 +14,7 @@ test.describe('시나리오 4 : 유저는 리스트의 테스크들을 완료처
   }) => {
     //Given : 미완료 섹션에 'inCompletToComplet'이라는 테스크가 있다.
     await page.fill('input[placeholder="해야할일..."]', 'inCompletToComplet');
-    await page.click('text=+');
+    await page.click('text=🔥');
 
     //When : 유저가 'inCompletToComplet' 테스크의 체크박스를 클릭한다.
     await page.click(
@@ -39,7 +39,7 @@ test.describe('시나리오 4 : 유저는 리스트의 테스크들을 완료처
   }) => {
     //Given : 완료처리가되어있는 Task가 있다.
     await page.fill('input[placeholder="해야할일..."]', 'CompletToinComplete');
-    await page.click('text=+');
+    await page.click('text=🔥');
     await page.click(
       `[data-testid="task-CompletToinComplete"] >> css=[data-testid="checkbox-visible"]`,
     );

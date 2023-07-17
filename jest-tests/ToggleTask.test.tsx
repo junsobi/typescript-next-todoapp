@@ -4,7 +4,7 @@ import { within } from '@testing-library/dom';
 import { act } from 'react-dom/test-utils';
 import '@testing-library/jest-dom/extend-expect';
 import { TasksProvider } from '@/context/TasksContext';
-import App from '@/pages/index';
+import App from '@/pages/usecontext/index';
 import { mockTasks } from '@/data/mockTasks';
 
 // - **Scenario 4: 유저는 리스트의 태스크들을 완료 처리하거나 완료 취소 처리한다.**

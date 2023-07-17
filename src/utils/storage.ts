@@ -7,13 +7,9 @@ export const saveTasksToLocalStorage = (tasks: Task[]) => {
 };
 
 export const loadTasksFromLocalStorage = (): Task[] => {
-  let storedTasks = null;
-
   if (typeof window !== 'undefined') {
-    storedTasks = window.localStorage.getItem('tasks');
+    const storedTasks = window.localStorage.getItem('tasks');
+    return storedTasks ? JSON.parse(storedTasks) : [];
   }
-
-  return storedTasks ? JSON.parse(storedTasks) : [];
+  return [];
 };
-
-//try catch

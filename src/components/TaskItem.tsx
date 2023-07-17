@@ -107,7 +107,7 @@ const TaskItem: React.FC<TaskItemProps> = ({ task }) => {
           />
         ) : (
           <>
-            {task.DueDateTime && (
+            {task.DueDateTime && task.status !== 'completed' && (
               <span className="dueDateText px-2 py-1 rounded bg-gray-200 text-gray-600 text-xs cursor-pointer ">
                 {getDueDateText()}
               </span>

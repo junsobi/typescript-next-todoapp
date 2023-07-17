@@ -9,7 +9,7 @@ test.describe('시나리오3 : 유저가 task 내용을 편집한다.', () => {
 
     // Given : 사용자가 페이지를 방문하고 새로운 task를 입력한다.
     await page.fill('input[placeholder="해야할일..."]', 'ForEditTask');
-    await page.click('text=+');
+    await page.click('text=🔥');
 
     //Given : Task가 리스트에 존재할때.
     const taskLabel = await page.$(`text=ForEditTask`);

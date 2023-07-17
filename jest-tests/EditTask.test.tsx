@@ -3,7 +3,7 @@ import { render, fireEvent, screen, waitFor } from '@testing-library/react';
 import { act } from 'react-dom/test-utils';
 import '@testing-library/jest-dom/extend-expect';
 import { TasksProvider } from '@/context/TasksContext';
-import App from '@/pages/index';
+import App from '@/pages/usecontext/index';
 import { mockTasks } from '@/data/mockTasks';
 
 describe('시나리오3 : 유저가 task 내용을 편집한다.', () => {

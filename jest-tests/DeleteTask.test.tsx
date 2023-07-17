@@ -8,7 +8,7 @@ import {
 } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 import { TasksProvider } from '@/context/TasksContext';
-import App from '@/pages/index';
+import App from '@/pages/usecontext/index';
 
 // - **Scenario 5: 유저가 Task를 삭제한다**
 // - given: 리스트에 Task가 있을 때

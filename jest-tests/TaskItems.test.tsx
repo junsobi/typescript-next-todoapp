@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import TaskItems from '@/components/TaskItems';
-import App from '@/pages/index';
+import App from '@/pages/usecontext/index';
 import { mockTasks } from '../src/data/mockTasks';
 import { Task } from '@/types/type';
 
