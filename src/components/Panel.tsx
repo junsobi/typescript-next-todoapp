@@ -8,7 +8,7 @@ interface PanelProps {
 }
 
 const Panel: React.FC<PanelProps> = ({ title, children }) => {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(true);
 
   return (
     <div className="my-2">

@@ -5,7 +5,7 @@ import Panel from '@/components/Panel';
 const HomePage = () => {
   return (
     <Layout>
-      <div className="flex flex-col h-full bg-gray-100 p-10 rounded-md shadow-md">
+      <div className="flex flex-col h-full p-10 ">
         <h1 className="mb-8 text-3xl font-semibold text-gray-700">
           Project GuideLine
         </h1>

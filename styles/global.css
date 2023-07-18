@@ -19,3 +19,7 @@
     opacity 200ms,
     transform 200ms;
 }
+
+.overflow-ellipsis {
+  text-overflow: ellipsis;
+}
