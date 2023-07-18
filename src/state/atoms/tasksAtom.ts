@@ -1,34 +1,24 @@
-import { atom } from 'recoil';
+import { atom, useRecoilState } from 'recoil';
 import { Task } from '@/types/type';
-import { loadTasksFromLocalStorage } from '@/utils/storage';
+import { useEffect } from 'react';
 import { v4 as uuidv4 } from 'uuid';
-import { useRecoilState } from 'recoil';
 
 export const tasksState = atom<Task[]>({
   key: 'tasksState',
-  default: loadTasksFromLocalStorage() || [],
-  effects_UNSTABLE: [
-    ({ setSelf }) => {
-      if (typeof window !== 'undefined') {
-        const savedTasks = localStorage.getItem('tasks');
-        if (savedTasks) {
-          setSelf(JSON.parse(savedTasks));
-        }
-      }
-      return () => {
-        if (typeof window !== 'undefined') {
-          const tasks = localStorage.getItem('tasks');
-          if (tasks) {
-            setSelf(JSON.parse(tasks));
-          }
-        }
-      };
-    },
-  ],
+  default: [],
 });
 
 export function TaskManager() {
   const [tasks, setTasks] = useRecoilState(tasksState);
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const savedTasks = localStorage.getItem('tasks');
+      if (savedTasks) {
+        setTasks(JSON.parse(savedTasks));
+      }
+    }
+  }, []);
 
   const addTask = (
     taskToAdd: Omit<Task, 'id' | 'createdDateTime' | 'lastModifiedDateTime'>,

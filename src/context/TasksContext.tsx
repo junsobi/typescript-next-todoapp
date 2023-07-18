@@ -112,10 +112,16 @@ export const TasksProvider: React.FC<TasksProviderProps> = ({ children }) => {
     setTasks((currentTasks) =>
       currentTasks.filter((task) => task.status !== 'completed'),
     );
-    saveTasksToLocalStorage(
-      tasks.filter((task) => task.status !== 'completed'),
-    );
   };
+
+  // const clearCompletedTasks = () => {
+  //   setTasks((currentTasks) =>
+  //     currentTasks.filter((task) => task.status !== 'completed'),
+  //   );
+  //   saveTasksToLocalStorage(
+  //     tasks.filter((task) => task.status !== 'completed'),
+  //   );
+  // };
 
   return (
     <TasksContext.Provider

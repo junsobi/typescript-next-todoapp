@@ -9,13 +9,11 @@ import { RecoilRoot } from 'recoil';
 const UseRecoilPage: React.FC = () => {
   return (
     <RecoilRoot>
-      <TasksProvider>
-        <Layout>
-          <ContextLayout>
-            <TasksSection />
-          </ContextLayout>
-        </Layout>
-      </TasksProvider>
+      <Layout>
+        <ContextLayout>
+          <TasksSection />
+        </ContextLayout>
+      </Layout>
     </RecoilRoot>
   );
 };
