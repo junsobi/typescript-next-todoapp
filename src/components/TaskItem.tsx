@@ -50,7 +50,7 @@ const TaskItem: React.FC<TaskItemProps> = ({ task }) => {
   };
 
   const handleCheckboxClick = () => {
-    toggleTask(task);
+    toggleTask(task.id);
   };
 
   const handleDeleteButtonClick = () => {
