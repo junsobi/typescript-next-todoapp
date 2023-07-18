@@ -6,17 +6,16 @@ import {
   loadTasksFromLocalStorage,
 } from '@/utils/storage';
 
-interface ContextProps {
+export interface ContextProps {
   tasks: Task[];
   addTask: (
-    task: Omit<Task, 'id' | 'createdDateTime' | 'lastModifiedDateTime'>,
+    taskToAdd: Omit<Task, 'id' | 'createdDateTime' | 'lastModifiedDateTime'>,
   ) => void;
   editTask: (
-    task: Pick<Task, 'id'> &
+    taskToEdit: Pick<Task, 'id'> &
       Omit<Task, 'createdDateTime' | 'lastModifiedDateTime'>,
   ) => void;
-  //id를 가지고 있지만 , 만든시간,수정시간은 가지고잇지않는 타입의 객체를 매개변수로 받겠다.
-  toggleTask: (task: Task) => void;
+  toggleTask: (taskId: string) => void;
   deleteTask: (taskId: string) => void;
   clearCompletedTasks: () => void;
 }
@@ -90,10 +89,10 @@ export const TasksProvider: React.FC<TasksProviderProps> = ({ children }) => {
     });
   };
 
-  const toggleTask = (taskToToggle: Task) => {
+  const toggleTask = (taskId: string) => {
     setTasks((currentTasks) =>
       currentTasks.map((task) =>
-        task.id === taskToToggle.id
+        task.id === taskId
           ? {
               ...task,
               status: task.status === 'completed' ? 'inProgress' : 'completed',

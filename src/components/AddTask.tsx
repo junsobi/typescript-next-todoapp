@@ -1,11 +1,11 @@
 import React, { useState, useContext, useRef } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-import { TasksContext } from '@/context/TasksContext';
+import { useTaskManager } from '@/hooks/useTaskManager';
 import Button from './Button';
 
 const AddTask: React.FC = () => {
-  const { addTask } = useContext(TasksContext);
+  const { addTask } = useTaskManager();
   const [title, setTitle] = useState('');
   const [dueDate, setDueDate] = useState<Date | null>(null);
   const [isCalendarOpen, setIsCalendarOpen] = useState(false);

@@ -1,8 +1,7 @@
-import { useContext } from 'react';
-import { TasksContext } from '@/context/TasksContext';
+import { useTaskManager } from './useTaskManager';
 
 const useTasks = () => {
-  const { tasks } = useContext(TasksContext);
+  const { tasks } = useTaskManager();
 
   const incompletedTasks = {
     tasks: tasks.filter((task) => task.status !== 'completed'),
