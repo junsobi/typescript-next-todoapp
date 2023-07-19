@@ -1,13 +1,23 @@
-import React from 'react';
-import dynamic from 'next/dynamic';
+import React, { FC } from 'react';
 
-const DynamicUseContextPage = dynamic(
-  () => import('@/components/UseContextPage'),
-  { ssr: false },
-);
+import Layout from '@/components/Layout';
+import TasksProvider from '@/context/TasksContext';
+import ContextLayout from '@/components/contextLayout';
+import TasksSection from '@/components/TasksSection';
+import { RecoilRoot } from 'recoil';
 
-const UseContextIndex: React.FC = () => {
-  return <DynamicUseContextPage />;
+const UseContextPage: React.FC = () => {
+  return (
+    <RecoilRoot>
+      <TasksProvider>
+        <Layout>
+          <ContextLayout>
+            <TasksSection />
+          </ContextLayout>
+        </Layout>
+      </TasksProvider>
+    </RecoilRoot>
+  );
 };
 
-export default UseContextIndex;
+export default UseContextPage;

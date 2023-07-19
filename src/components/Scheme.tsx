@@ -1,21 +1,11 @@
-import { Table } from 'antd';
-
-const columns = [
-  {
-    title: '필드명',
-    dataIndex: 'name',
-  },
-  {
-    title: '설명',
-    dataIndex: 'description',
-  },
-  {
-    title: '타입',
-    dataIndex: 'type',
-  },
-];
-
-const data = [
+import { Fragment } from 'react';
+type DataType = {
+  key: string;
+  name: string;
+  type: string;
+  description: string;
+};
+const data: DataType[] = [
   {
     key: '1',
     name: 'id',
@@ -66,13 +56,62 @@ const data = [
   },
 ];
 
-const Scheme = () => {
-  return (
-    <div className="p-10">
-      <div className="text-xl mb-4">Data Scheme</div>
-      <Table columns={columns} dataSource={data} pagination={false} />
+interface TableRowProps {
+  item: DataType;
+}
+
+const TableRow: React.FC<TableRowProps> = ({ item }) => (
+  <tr className="even:bg-gray-100 hover:bg-gray-200 transition-colors duration-200">
+    <td className="px-6 py-4 border-r border-gray-100 whitespace-nowrap text-sm font-medium text-gray-900">
+      {item.name}
+    </td>
+    <td className="px-6 py-4 border-r border-gray-50 whitespace-nowrap text-sm text-gray-500">
+      {item.description}
+    </td>
+    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+      {item.type}
+    </td>
+  </tr>
+);
+
+const Scheme = () => (
+  <div className="flex flex-col p-10">
+    <div className="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+      <div className="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
+        <div className="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
+          <table className="min-w-full divide-y divide-gray-200">
+            <thead className="bg-gray-50">
+              <tr>
+                <th
+                  scope="col"
+                  className="px-6 py-3 border-r border-gray-200 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                >
+                  필드명
+                </th>
+                <th
+                  scope="col"
+                  className="px-6 py-3 border-r border-gray-200 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                >
+                  설명
+                </th>
+                <th
+                  scope="col"
+                  className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                >
+                  타입
+                </th>
+              </tr>
+            </thead>
+            <tbody className="bg-white divide-y divide-gray-200">
+              {data.map((item, index) => (
+                <TableRow key={index} item={item} />
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
     </div>
-  );
-};
+  </div>
+);
 
 export default Scheme;

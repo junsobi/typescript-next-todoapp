@@ -1,8 +1,7 @@
-import { useContext } from 'react';
-import { TasksContext } from '@/context/TasksContext';
+import { useTaskManager } from '@/hooks/useTaskManager';
 
 const useClearAll = () => {
-  const { clearCompletedTasks } = useContext(TasksContext);
+  const { clearCompletedTasks } = useTaskManager();
 
   const handleClearAll = () => {
     clearCompletedTasks();

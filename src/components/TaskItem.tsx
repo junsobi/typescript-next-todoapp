@@ -2,16 +2,16 @@ import React, { useState, useEffect, useContext } from 'react';
 import Checkbox from './Checkbox';
 import Button from './Button';
 import { Task } from '@/types/type';
-import { TasksContext } from '@/context/TasksContext';
 import TaskText from './TaskText';
 import Input from './Input';
+import { useTaskManager } from '@/hooks/useTaskManager';
 
 type TaskItemProps = {
   task: Task;
 };
 
 const TaskItem: React.FC<TaskItemProps> = ({ task }) => {
-  const { editTask, toggleTask, deleteTask } = useContext(TasksContext);
+  const { editTask, toggleTask, deleteTask } = useTaskManager();
   const [isEditing, setIsEditing] = useState(false);
   const [newTaskTitle, setNewTaskTitle] = useState('');
   const [prevTaskTitle, setPrevTaskTitle] = useState('');
@@ -50,7 +50,7 @@ const TaskItem: React.FC<TaskItemProps> = ({ task }) => {
   };
 
   const handleCheckboxClick = () => {
-    toggleTask(task);
+    toggleTask(task.id);
   };
 
   const handleDeleteButtonClick = () => {
