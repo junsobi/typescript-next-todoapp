@@ -36,6 +36,16 @@ const navItems: NavItem[] = [
       },
     ],
   },
+  {
+    path: undefined,
+    name: '서버와의 통신',
+    subItems: [
+      {
+        path: '/server-recoil',
+        name: 'with Recoil',
+      },
+    ],
+  },
 ];
 
 const Layout: FC<LayoutProps> = ({ children }) => {
