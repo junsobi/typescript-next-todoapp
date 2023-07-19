@@ -1,3 +1,5 @@
+//recoil 또는 contextapi 를 판단해주는 로직
+
 import { useContext } from 'react';
 import { useRecoilValue } from 'recoil';
 import { useRouter } from 'next/router';
@@ -8,7 +10,7 @@ import {
   TaskManager as useRecoilTaskManager,
 } from '@/state/atoms/tasksAtom';
 import { ContextProps } from '@/context/TasksContext';
-import { Task } from '@/types/type';
+
 
 export interface TaskManagerProps extends ContextProps {}
 
