@@ -11,7 +11,6 @@ import {
 } from '@/state/atoms/tasksAtom';
 import { ContextProps } from '@/context/TasksContext';
 
-
 export interface TaskManagerProps extends ContextProps {}
 
 export function useTaskManager(): TaskManagerProps {
@@ -22,7 +21,10 @@ export function useTaskManager(): TaskManagerProps {
   const { addTask: addTaskWithRecoil, ...recoilActions } =
     useRecoilTaskManager();
 
-  if (router.pathname.includes('/recoil')) {
+  if (
+    router.pathname.includes('/recoil') ||
+    router.pathname.includes('/server-recoil')
+  ) {
     return {
       tasks: recoilTasks,
       addTask: addTaskWithRecoil,

@@ -1,19 +1,21 @@
 import React from 'react';
 import dynamic from 'next/dynamic';
 import Layout from '@/components/Layout';
+import { NextPageWithLayout } from '../_app';
+import Scheme from '@/components/Scheme';
+import TestScenario from '@/components/TestScenario';
 
-const Scheme = dynamic(() => import('@/components/Scheme'), { ssr: false });
-const TestScenario = dynamic(() => import('@/components/TestScenario'), {
-  ssr: false,
-});
-
-const App: React.FC = () => {
+const SpecPage: NextPageWithLayout = () => {
   return (
-    <Layout>
+    <>
       <Scheme />
       <TestScenario />
-    </Layout>
+    </>
   );
 };
 
-export default App;
+SpecPage.getLayout = function getLayout(page) {
+  return <Layout>{page}</Layout>;
+};
+
+export default SpecPage;

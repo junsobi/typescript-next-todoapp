@@ -1,25 +1,22 @@
-import React, { FC } from 'react';
-
+import React from 'react';
 import Layout from '@/components/Layout';
 import TasksProvider from '@/context/TasksContext';
-import ContextLayout from '@/components/contextLayout';
+import TodoLayout from '@/components/TodoLayout';
 import TasksSection from '@/components/TasksSection';
-import { RecoilRoot } from 'recoil';
+import { NextPageWithLayout } from '../_app';
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL;
-console.log(API_URL);
-const API_KEY = process.env.NEXT_PUBLIC_API_KEY;
-
-const UseRecoilPage: React.FC = () => {
+const UseRecoilPage: NextPageWithLayout = () => {
   return (
-    <RecoilRoot>
-      <Layout>
-        <ContextLayout>
-          <TasksSection />
-        </ContextLayout>
-      </Layout>
-    </RecoilRoot>
+    <TasksProvider>
+      <TodoLayout>
+        <TasksSection />
+      </TodoLayout>
+    </TasksProvider>
   );
+};
+
+UseRecoilPage.getLayout = function getLayout(page) {
+  return <Layout>{page}</Layout>;
 };
 
 export default UseRecoilPage;

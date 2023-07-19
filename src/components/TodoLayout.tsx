@@ -6,7 +6,7 @@ interface LayoutProps {
   children: React.ReactNode;
 }
 
-const ContextLayout: React.FC<LayoutProps> = ({ children }) => (
+const TodoLayout: React.FC<LayoutProps> = ({ children }) => (
   <div className="h-screen w-auto flex items-center justify-center font-light bg-gray-100 text-gray-700">
     <div className="relative h-5/6 w-11/12 max-w-3xl p-4 shadow-2xl bg-white overflow-visible">
       <div className="h-full w-full flex flex-col">
@@ -31,4 +31,4 @@ const ContextLayout: React.FC<LayoutProps> = ({ children }) => (
   </div>
 );
 
-export default ContextLayout;
+export default TodoLayout;

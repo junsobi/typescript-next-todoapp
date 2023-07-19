@@ -1,23 +1,22 @@
-import React, { FC } from 'react';
-
+import React from 'react';
 import Layout from '@/components/Layout';
 import TasksProvider from '@/context/TasksContext';
-import ContextLayout from '@/components/contextLayout';
+import TodoLayout from '@/components/TodoLayout';
 import TasksSection from '@/components/TasksSection';
-import { RecoilRoot } from 'recoil';
+import { NextPageWithLayout } from '../_app';
 
-const UseContextPage: React.FC = () => {
+const UseContextPage: NextPageWithLayout = () => {
   return (
-    <RecoilRoot>
-      <TasksProvider>
-        <Layout>
-          <ContextLayout>
-            <TasksSection />
-          </ContextLayout>
-        </Layout>
-      </TasksProvider>
-    </RecoilRoot>
+    <TasksProvider>
+      <TodoLayout>
+        <TasksSection />
+      </TodoLayout>
+    </TasksProvider>
   );
+};
+
+UseContextPage.getLayout = function getLayout(page) {
+  return <Layout>{page}</Layout>;
 };
 
 export default UseContextPage;

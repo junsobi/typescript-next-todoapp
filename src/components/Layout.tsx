@@ -50,21 +50,18 @@ const navItems: NavItem[] = [
 
 const Layout: FC<LayoutProps> = ({ children }) => {
   const router = useRouter();
-  const [activePhase, setActivePhase] = useState<string>(
-    typeof window !== 'undefined' ? router.pathname : '',
-  );
+  const [activePhase, setActivePhase] = useState<string>(router.pathname);
 
   const [isHovering, setHovering] = useState<string>('');
 
   useEffect(() => {
-    if (typeof window !== 'undefined') {
-      setActivePhase(router.pathname);
-    }
+    setActivePhase(router.pathname);
   }, [router.pathname]);
 
   const getItemClassName = (item: NavItem) => {
     let className =
       'text-gray-800 hover:bg-gray-100 p-4  rounded cursor-pointer flex justify-between items-center relative z-50';
+
     if (
       activePhase === item.path ||
       item.subItems?.some((subItem) => subItem.path === activePhase)
