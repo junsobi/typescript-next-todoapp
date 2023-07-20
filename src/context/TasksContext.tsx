@@ -13,7 +13,9 @@ export interface ContextProps {
   ) => void;
   editTask: (
     taskToEdit: Pick<Task, 'id'> &
-      Omit<Task, 'createdDateTime' | 'lastModifiedDateTime'>,
+      Partial<Omit<Task, 'createdDateTime' | 'lastModifiedDateTime'>> & {
+        DueDateTime?: Date | null;
+      },
   ) => void;
   toggleTask: (taskId: string) => void;
   deleteTask: (taskId: string) => void;
@@ -60,6 +62,7 @@ export const TasksProvider: React.FC<TasksProviderProps> = ({ children }) => {
   const addTask = (
     taskToAdd: Omit<Task, 'id' | 'createdDateTime' | 'lastModifiedDateTime'>,
   ) => {
+    console.log('Adding with context');
     setTasks((currentTasks) => [
       ...currentTasks,
       {
@@ -75,10 +78,11 @@ export const TasksProvider: React.FC<TasksProviderProps> = ({ children }) => {
 
   const editTask = (
     taskToEdit: Pick<Task, 'id'> &
-      Omit<Task, 'createdDateTime' | 'lastModifiedDateTime' | 'DueDateTime'> & {
+      Partial<Omit<Task, 'createdDateTime' | 'lastModifiedDateTime'>> & {
         DueDateTime?: Date | null;
       },
   ) => {
+    console.log('Editing with context');
     setTasks((currentTasks) => {
       return currentTasks.map((task) => {
         if (task.id === taskToEdit.id) {
@@ -90,6 +94,7 @@ export const TasksProvider: React.FC<TasksProviderProps> = ({ children }) => {
   };
 
   const toggleTask = (taskId: string) => {
+    console.log('Toggling with context');
     setTasks((currentTasks) =>
       currentTasks.map((task) =>
         task.id === taskId
@@ -103,12 +108,14 @@ export const TasksProvider: React.FC<TasksProviderProps> = ({ children }) => {
   };
 
   const deleteTask = (taskId: string) => {
+    console.log('Deleting with context');
     setTasks((currentTasks) =>
       currentTasks.filter((task) => task.id !== taskId),
     );
   };
 
   const clearCompletedTasks = () => {
+    console.log('Clearing completed tasks with context');
     setTasks((currentTasks) =>
       currentTasks.filter((task) => task.status !== 'completed'),
     );

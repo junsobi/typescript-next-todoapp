@@ -1,36 +1,24 @@
-//recoil 또는 contextapi 를 판단해주는 로직
-
 import { useContext } from 'react';
-import { useRecoilValue } from 'recoil';
-import { useRouter } from 'next/router';
-
+import { useGlobalState } from './useGlobalState';
+import { useLocalTaskManager } from '@/recoil/localTaskManager';
+import { useServerTaskManager } from '@/recoil/serverTaskManager';
 import { TasksContext } from '@/context/TasksContext';
-import {
-  tasksState,
-  TaskManager as useRecoilTaskManager,
-} from '@/state/atoms/tasksAtom';
-import { ContextProps } from '@/context/TasksContext';
-
-export interface TaskManagerProps extends ContextProps {}
+import { TaskManagerProps } from '@/types/type';
 
 export function useTaskManager(): TaskManagerProps {
-  const router = useRouter();
-  const contextTasks = useContext(TasksContext);
-  const recoilTasks = useRecoilValue(tasksState);
+  const [globalState] = useGlobalState();
 
-  const { addTask: addTaskWithRecoil, ...recoilActions } =
-    useRecoilTaskManager();
+  const localTaskManager = useLocalTaskManager();
+  const serverTaskManager = useServerTaskManager();
+  const contextTaskManager = useContext(TasksContext);
 
-  if (
-    router.pathname.includes('/recoil') ||
-    router.pathname.includes('/server-recoil')
-  ) {
-    return {
-      tasks: recoilTasks,
-      addTask: addTaskWithRecoil,
-      ...recoilActions,
-    };
+  switch (globalState.stateManager) {
+    case 'recoil':
+      return localTaskManager;
+    case 'recoil-with-server':
+      return serverTaskManager;
+    case 'context':
+    default:
+      return contextTaskManager;
   }
-
-  return contextTasks;
 }

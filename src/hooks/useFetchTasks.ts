@@ -1,28 +1,24 @@
-import { useEffect, useState } from 'react';
+import { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Task } from '../types/type';
 
-const useFetchTasks = () => {
-  const [tasks, setTasks] = useState<Task[]>([]);
-  const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string>('');
+const API_URL = process.env.NEXT_PUBLIC_API_URL;
+const API_KEY = process.env.NEXT_PUBLIC_API_KEY;
+
+export function useFetchTasks() {
+  const [tasks, setTasks] = useState([]);
 
   useEffect(() => {
     const fetchTasks = async () => {
-      try {
-        const response = await axios.get('/data/tasks.json');
-        setTasks(response.data);
-        setLoading(false);
-      } catch (error) {
-        setError('Error fetching tasks');
-        setLoading(false);
-      }
+      console.log('fetching tasks with server-recoil');
+      const response = await axios.get(`${API_URL}/rest/v1/todos`, {
+        headers: {
+          apikey: API_KEY,
+        },
+      });
+      setTasks(response.data);
     };
-
     fetchTasks();
   }, []);
 
-  return { tasks, loading, error };
-};
-
-export default useFetchTasks;
+  return tasks;
+}
