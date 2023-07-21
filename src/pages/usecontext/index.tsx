@@ -11,8 +11,9 @@ const UseContextPage: NextPageWithLayout = () => {
   const setGlobalState = useSetRecoilState(globalState);
 
   useEffect(() => {
+    console.log('Setting global state');
     setGlobalState({ stateManager: 'context' });
-  }, [setGlobalState]);
+  }, []);
 
   return (
     <TasksProvider>

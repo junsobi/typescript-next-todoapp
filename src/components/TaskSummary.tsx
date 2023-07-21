@@ -1,14 +1,19 @@
 import React from 'react';
 import Button from './Button';
 import { Task } from '@/types/type';
-import useClearAll from '@/hooks/useClearAll';
+import { useTaskManager } from '@/hooks/useTaskManager';
 
 interface TaskSummaryProps {
   tasks: Task[];
 }
 
 const TaskSummary: React.FC<TaskSummaryProps> = ({ tasks }) => {
-  const clearAllProps = useClearAll();
+  const { clearCompletedTasks } = useTaskManager();
+
+  const handleClearAll = () => {
+    clearCompletedTasks();
+  };
+
   const completedTasks = tasks.filter(
     (task) => task.status === 'completed',
   ).length;
@@ -17,7 +22,12 @@ const TaskSummary: React.FC<TaskSummaryProps> = ({ tasks }) => {
     <div className="flex justify-between mt-10 belowPart">
       <div>Completed Todos : {completedTasks}</div>
       <div className="deleteButtons flex gap-4 shadow-md">
-        <Button {...clearAllProps} />
+        <Button
+          onClick={handleClearAll}
+          className="bg-gray-200  px-3 py-1 rounded hover:bg-gray-300 shadow-md"
+        >
+          🧹
+        </Button>
       </div>
     </div>
   );

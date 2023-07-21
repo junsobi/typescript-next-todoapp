@@ -11,8 +11,9 @@ const UseServerRecoilPage: NextPageWithLayout = () => {
   const setGlobalState = useSetRecoilState(globalState);
 
   useEffect(() => {
+    console.log('Setting global state');
     setGlobalState({ stateManager: 'recoil' });
-  }, [setGlobalState]);
+  }, []);
 
   return (
     <TodoLayout>

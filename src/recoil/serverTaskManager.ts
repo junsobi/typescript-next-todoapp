@@ -15,19 +15,6 @@ export const tasksState = atom<Task[]>({
 export function useServerTaskManager(): TaskManagerProps {
   const [tasks, setTasks] = useRecoilState(tasksState);
 
-  // useEffect(() => {
-  //   const fetchTasks = async () => {
-  //     console.log('fetching tasks with server-recoil');
-  //     const response = await axios.get(`${API_URL}/rest/v1/todos`, {
-  //       headers: {
-  //         apikey: API_KEY,
-  //       },
-  //     });
-  //     setTasks(response.data);
-  //   };
-  //   fetchTasks();
-  // }, []);
-
   const addTask = async (
     taskToAdd: Omit<Task, 'id' | 'createdDateTime' | 'lastModifiedDateTime'>,
   ) => {
@@ -36,12 +23,19 @@ export function useServerTaskManager(): TaskManagerProps {
       title: taskToAdd.title,
       content: taskToAdd.content,
     };
-    const response = await axios.post(`${API_URL}/rest/v1/todos`, serverTask, {
+    await axios.post(`${API_URL}rest/v1/todos`, serverTask, {
       headers: {
         apikey: API_KEY,
       },
     });
-    setTasks((oldTasks) => [...oldTasks, response.data]);
+
+    const response = await axios.get(`${API_URL}/rest/v1/todos`, {
+      headers: {
+        apikey: API_KEY,
+      },
+    });
+
+    setTasks(response.data);
   };
 
   const editTask = async (

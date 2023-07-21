@@ -1,4 +1,4 @@
-import { useContext } from 'react';
+import { useEffect, useContext } from 'react';
 import { useGlobalState } from './useGlobalState';
 import { useLocalTaskManager } from '@/recoil/localTaskManager';
 import { useServerTaskManager } from '@/recoil/serverTaskManager';
@@ -7,6 +7,8 @@ import { TaskManagerProps } from '@/types/type';
 
 export function useTaskManager(): TaskManagerProps {
   const [globalState] = useGlobalState();
+
+  useEffect(() => {}, [globalState]);
 
   const localTaskManager = useLocalTaskManager();
   const serverTaskManager = useServerTaskManager();

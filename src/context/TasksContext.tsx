@@ -41,9 +41,9 @@ export const TasksProvider: React.FC<TasksProviderProps> = ({ children }) => {
   const [tasks, setTasks] = useState<Task[]>([]);
 
   useEffect(() => {
-    const loadAndSetTasks = async () => {
+    const loadAndSetTasks = () => {
       const storedTasks = loadTasksFromLocalStorage();
-      if (storedTasks) {
+      if (storedTasks && storedTasks.length > 0) {
         setTasks(storedTasks);
       }
     };
@@ -54,7 +54,7 @@ export const TasksProvider: React.FC<TasksProviderProps> = ({ children }) => {
   }, []);
 
   useEffect(() => {
-    if (tasks.length > 0 && typeof window !== 'undefined') {
+    if (typeof window !== 'undefined') {
       saveTasksToLocalStorage(tasks);
     }
   }, [tasks]);
