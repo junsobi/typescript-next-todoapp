@@ -3,9 +3,14 @@ import { useGlobalState } from './useGlobalState';
 import { useLocalTaskManager } from '@/recoil/localTaskManager';
 import { useServerTaskManager } from '@/recoil/serverTaskManager';
 import { TasksContext } from '@/context/TasksContext';
-import { TaskManagerProps } from '@/types/type';
+import {
+  TaskManagerProps,
+  TaskManagerPropsWithOptimisticId,
+} from '@/types/type';
 
-export function useTaskManager(): TaskManagerProps {
+export function useTaskManager():
+  | TaskManagerProps
+  | TaskManagerPropsWithOptimisticId {
   const [globalState] = useGlobalState();
 
   useEffect(() => {}, [globalState]);
