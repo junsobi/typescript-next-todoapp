@@ -44,6 +44,10 @@ const navItems: NavItem[] = [
         path: '/server-recoil',
         name: 'with Recoil',
       },
+      {
+        path: '/react-query',
+        name: 'with React-query',
+      },
     ],
   },
 ];

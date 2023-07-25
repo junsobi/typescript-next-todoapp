@@ -130,7 +130,6 @@ export function useServerTaskManager(): TaskManagerPropsWithOptimisticId {
     const newStatus =
       taskToToggle.status === 'completed' ? 'inProgress' : 'completed';
 
-    // Optimistically update task status in state
     setTasks((oldTasks) =>
       oldTasks.map((task) =>
         task.id === taskId ? { ...task, status: newStatus } : task,
@@ -148,7 +147,6 @@ export function useServerTaskManager(): TaskManagerPropsWithOptimisticId {
         },
       );
     } catch (error) {
-      // On error, revert to the previous state
       setTasks(tasks);
       console.error(error);
     }
@@ -178,7 +176,7 @@ export function useServerTaskManager(): TaskManagerPropsWithOptimisticId {
       console.error(error);
     }
   };
-
+  // console.log(tasks);
   return {
     tasks,
     addTask,

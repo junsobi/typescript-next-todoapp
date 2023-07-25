@@ -4,6 +4,7 @@ import { globalState } from '@/hooks/useGlobalState';
 import Layout from '@/components/Layout';
 import TodoLayout from '@/components/TodoLayout';
 import TasksSection from '@/components/TasksSection';
+import { RecoilRoot } from 'recoil';
 import { NextPageWithLayout } from '../_app';
 import { tasksState } from '@/recoil/serverTaskManager';
 import { useFetchTasks } from '@/hooks/useFetchTasks';
@@ -15,7 +16,7 @@ const UseRecoilPage: NextPageWithLayout = () => {
 
   useEffect(() => {
     setGlobalState({ stateManager: 'recoil-with-server' });
-  }, [setGlobalState]);
+  }, []);
 
   useEffect(() => {
     setTasks(fetchedTasks);

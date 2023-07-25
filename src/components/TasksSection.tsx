@@ -6,7 +6,7 @@ import { useTaskManager } from '@/hooks/useTaskManager';
 
 const TasksSection: React.FC = () => {
   const { tasks } = useTaskManager();
-
+  // console.log(tasks);
   const incompletedTasks = useMemo(() => {
     return {
       tasks: tasks.filter((task) => task.status !== 'completed'),

@@ -1,32 +1,32 @@
 import React, { createContext, useState, ReactNode, useEffect } from 'react';
-import { Task } from '@/types/type';
+import { Task, TaskManagerProps } from '@/types/type';
 import { v4 as uuidv4 } from 'uuid';
 import {
   saveTasksToLocalStorage,
   loadTasksFromLocalStorage,
 } from '@/utils/storage';
 
-export interface ContextProps {
-  tasks: Task[];
-  addTask: (
-    taskToAdd: Omit<Task, 'id' | 'createdDateTime' | 'lastModifiedDateTime'>,
-  ) => void;
-  editTask: (
-    taskToEdit: Pick<Task, 'id'> &
-      Partial<Omit<Task, 'createdDateTime' | 'lastModifiedDateTime'>> & {
-        DueDateTime?: Date | null;
-      },
-  ) => void;
-  toggleTask: (taskId: string) => void;
-  deleteTask: (taskId: string) => void;
-  clearCompletedTasks: () => void;
-}
+// export interface ContextProps {
+//   tasks: Task[];
+//   addTask: (
+//     taskToAdd: Omit<Task, 'id' | 'createdDateTime' | 'lastModifiedDateTime'>,
+//   ) => void;
+//   editTask: (
+//     taskToEdit: Pick<Task, 'id'> &
+//       Partial<Omit<Task, 'createdDateTime' | 'lastModifiedDateTime'>> & {
+//         DueDateTime?: Date | null;
+//       },
+//   ) => void;
+//   toggleTask: (taskId: string) => void;
+//   deleteTask: (taskId: string) => void;
+//   clearCompletedTasks: () => void;
+// }
 
 interface TasksProviderProps {
   children: ReactNode;
 }
 
-export const TasksContext = createContext<ContextProps>({
+export const TasksContext = createContext<TaskManagerProps>({
   tasks: [],
   addTask: () => undefined,
   editTask: () => undefined,
