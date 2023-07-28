@@ -9,7 +9,15 @@ export interface Task {
   DueDateTime: Date | null;
 }
 // Optimistic UI를 위한 타입
-export interface PartialTask extends Task {
+export interface PartialTask {
+  id?: string;
+  title?: string;
+  content?: string;
+  categories?: string[];
+  status?: 'inProgress' | 'completed';
+  createdDateTime?: Date;
+  lastModifiedDateTime?: Date;
+  DueDateTime?: Date | null;
   tempId?: string;
 }
 
@@ -27,6 +35,7 @@ export interface TaskManagerPropsWithOptimisticId extends TaskManagerProps {
         >
       >,
   ) => void;
+  clearCompletedTasks: UseMutateFunction<unknown, unknown, unknown, unknown>;
 }
 
 export interface TaskManagerProps {

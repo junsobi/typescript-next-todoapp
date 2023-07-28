@@ -1,14 +1,11 @@
 import { useEffect } from 'react';
-import axios from 'axios';
 import { atom, useRecoilState } from 'recoil';
 import {
   Task,
   PartialTask,
   TaskManagerPropsWithOptimisticId,
 } from '@/types/type';
-
-const API_URL = process.env.NEXT_PUBLIC_API_URL;
-const API_KEY = process.env.NEXT_PUBLIC_API_KEY;
+import apiClient from '@/utils/apiClient';
 
 export const tasksState = atom<Task[]>({
   key: 'serverTasksState',
@@ -19,20 +16,20 @@ export function useServerTaskManager(): TaskManagerPropsWithOptimisticId {
   const [tasks, setTasks] = useRecoilState(tasksState);
 
   //ADD
-
   const addTask = async (taskToAdd: PartialTask) => {
     console.log('adding task with server-recoil');
     const serverTask = {
-      title: taskToAdd.title,
-      content: taskToAdd.content,
+      title: taskToAdd.title ?? 'Default title',
+      content: taskToAdd.content ?? 'Default content',
     };
-    // 가상 id 부여(Optimistic UI) - 더 빠른 반응을 위해
     const tempId = Date.now().toString();
     setTasks((oldTasks) => [
       ...oldTasks,
       {
         ...taskToAdd,
         id: tempId,
+        title: taskToAdd.title as string,
+        content: taskToAdd.content as string,
         categories: taskToAdd.categories ?? [],
         status: taskToAdd.status ?? 'inProgress',
         createdDateTime: taskToAdd.createdDateTime ?? new Date(),
@@ -42,31 +39,17 @@ export function useServerTaskManager(): TaskManagerPropsWithOptimisticId {
     ]);
 
     try {
-      await axios.post(`${API_URL}/rest/v1/todos`, serverTask, {
-        headers: {
-          apikey: API_KEY,
-        },
-      });
-
-      const response = await axios.get(`${API_URL}/rest/v1/todos`, {
-        headers: {
-          apikey: API_KEY,
-        },
-      });
+      await apiClient.post('/rest/v1/todos', serverTask);
+      const response = await apiClient.get('/rest/v1/todos');
       console.log(response);
-      // Optimistic UI 업데이트에 대한 실제 서버 응답
       setTasks(response.data);
     } catch (error) {
-      // 에러 처리
       console.error(error);
-
-      // 가상 id 롤백
       setTasks((oldTasks) => oldTasks.filter((task) => task.id !== tempId));
     }
   };
 
-  //Edit
-
+  //EDIT
   const editTask = async (
     taskToEdit: Pick<Task, 'id'> &
       Partial<
@@ -79,7 +62,6 @@ export function useServerTaskManager(): TaskManagerPropsWithOptimisticId {
       >,
   ) => {
     console.log('editing task with server-recoil');
-
     setTasks((oldTasks) =>
       oldTasks.map((task) =>
         task.id === taskToEdit.id ? { ...task, ...taskToEdit } : task,
@@ -87,14 +69,9 @@ export function useServerTaskManager(): TaskManagerPropsWithOptimisticId {
     );
 
     try {
-      await axios.patch(
-        `${API_URL}/rest/v1/todos?id=eq.${taskToEdit.id}`,
+      await apiClient.patch(
+        `/rest/v1/todos?id=eq.${taskToEdit.id}`,
         taskToEdit,
-        {
-          headers: {
-            apikey: API_KEY,
-          },
-        },
       );
     } catch (error) {
       setTasks(tasks);
@@ -102,34 +79,26 @@ export function useServerTaskManager(): TaskManagerPropsWithOptimisticId {
     }
   };
 
+  //DELETE
   const deleteTask = async (taskId: string) => {
     console.log('deleting task with server-recoil');
-
     const oldTasks = tasks;
-
     setTasks(oldTasks.filter((task) => task.id !== taskId));
-
     try {
-      await axios.delete(`${API_URL}/rest/v1/todos?id=eq.${taskId}`, {
-        headers: {
-          apikey: API_KEY,
-        },
-      });
+      await apiClient.delete(`/rest/v1/todos?id=eq.${taskId}`);
     } catch (error) {
       setTasks(oldTasks);
       console.error(error);
     }
   };
 
+  //TOGGLE
   const toggleTask = async (taskId: string) => {
     console.log('toggling task with server-recoil');
-
     const taskToToggle = tasks.find((task) => task.id === taskId);
     if (!taskToToggle) return;
-
     const newStatus =
       taskToToggle.status === 'completed' ? 'inProgress' : 'completed';
-
     setTasks((oldTasks) =>
       oldTasks.map((task) =>
         task.id === taskId ? { ...task, status: newStatus } : task,
@@ -137,38 +106,25 @@ export function useServerTaskManager(): TaskManagerPropsWithOptimisticId {
     );
 
     try {
-      await axios.patch(
-        `${API_URL}/rest/v1/todos?id=eq.${taskId}`,
-        { status: newStatus },
-        {
-          headers: {
-            apikey: API_KEY,
-          },
-        },
-      );
+      await apiClient.patch(`/rest/v1/todos?id=eq.${taskId}`, {
+        status: newStatus,
+      });
     } catch (error) {
       setTasks(tasks);
       console.error(error);
     }
   };
 
+  //CLEAR
   const clearCompletedTasks = async () => {
     console.log('clearing completed tasks with server-recoil');
-
     const completedTasks = tasks.filter((task) => task.status === 'completed');
-
     const oldTasks = tasks;
-
     setTasks(oldTasks.filter((task) => task.status !== 'completed'));
-
     try {
       await Promise.all(
         completedTasks.map((task) =>
-          axios.delete(`${API_URL}/rest/v1/todos?id=eq.${task.id}`, {
-            headers: {
-              apikey: API_KEY,
-            },
-          }),
+          apiClient.delete(`/rest/v1/todos?id=eq.${task.id}`),
         ),
       );
     } catch (error) {
@@ -176,7 +132,7 @@ export function useServerTaskManager(): TaskManagerPropsWithOptimisticId {
       console.error(error);
     }
   };
-  // console.log(tasks);
+
   return {
     tasks,
     addTask,
