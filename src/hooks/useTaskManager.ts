@@ -1,34 +1,35 @@
-//recoil 또는 contextapi 를 판단해주는 로직
-
-import { useContext } from 'react';
-import { useRecoilValue } from 'recoil';
-import { useRouter } from 'next/router';
-
+import { useEffect, useContext } from 'react';
+import { useGlobalState } from './useGlobalState';
+import { useLocalTaskManager } from '@/recoil/localTaskManager';
+import { useServerTaskManager } from '@/recoil/serverTaskManager';
+import { useReactQueryTaskManager } from './useReactQueryTaskManager';
 import { TasksContext } from '@/context/TasksContext';
 import {
-  tasksState,
-  TaskManager as useRecoilTaskManager,
-} from '@/state/atoms/tasksAtom';
-import { ContextProps } from '@/context/TasksContext';
+  TaskManagerProps,
+  TaskManagerPropsWithOptimisticId,
+} from '@/types/type';
 
+export function useTaskManager():
+  | TaskManagerProps
+  | TaskManagerPropsWithOptimisticId {
+  const [globalState] = useGlobalState();
 
-export interface TaskManagerProps extends ContextProps {}
+  useEffect(() => {}, [globalState]);
 
-export function useTaskManager(): TaskManagerProps {
-  const router = useRouter();
-  const contextTasks = useContext(TasksContext);
-  const recoilTasks = useRecoilValue(tasksState);
+  const localTaskManager = useLocalTaskManager();
+  const serverTaskManager = useServerTaskManager();
+  const contextTaskManager = useContext(TasksContext);
+  const reactQueryTaskManager = useReactQueryTaskManager();
 
-  const { addTask: addTaskWithRecoil, ...recoilActions } =
-    useRecoilTaskManager();
-
-  if (router.pathname.includes('/recoil')) {
-    return {
-      tasks: recoilTasks,
-      addTask: addTaskWithRecoil,
-      ...recoilActions,
-    };
+  switch (globalState.stateManager) {
+    case 'recoil':
+      return localTaskManager;
+    case 'recoil-with-server':
+      return serverTaskManager;
+    case 'react-query':
+      return reactQueryTaskManager;
+    case 'context':
+    default:
+      return contextTaskManager;
   }
-
-  return contextTasks;
 }

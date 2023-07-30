@@ -1,25 +1,36 @@
-import React, { FC } from 'react';
-
+import { useEffect } from 'react';
+import { useSetRecoilState, useRecoilState } from 'recoil';
+import { globalState } from '@/hooks/useGlobalState';
 import Layout from '@/components/Layout';
-import TasksProvider from '@/context/TasksContext';
-import ContextLayout from '@/components/contextLayout';
+import TodoLayout from '@/components/TodoLayout';
 import TasksSection from '@/components/TasksSection';
 import { RecoilRoot } from 'recoil';
+import { NextPageWithLayout } from '../_app';
+import { tasksState } from '@/recoil/serverTaskManager';
+import { useFetchTasks } from '@/hooks/useFetchTasks';
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL;
-console.log(API_URL);
-const API_KEY = process.env.NEXT_PUBLIC_API_KEY;
+const UseRecoilPage: NextPageWithLayout = () => {
+  const setGlobalState = useSetRecoilState(globalState);
+  const [tasks, setTasks] = useRecoilState(tasksState);
+  const fetchedTasks = useFetchTasks();
 
-const UseRecoilPage: React.FC = () => {
+  useEffect(() => {
+    setGlobalState({ stateManager: 'recoil-with-server' });
+  }, []);
+
+  useEffect(() => {
+    setTasks(fetchedTasks);
+  }, [fetchedTasks]);
+
   return (
-    <RecoilRoot>
-      <Layout>
-        <ContextLayout>
-          <TasksSection />
-        </ContextLayout>
-      </Layout>
-    </RecoilRoot>
+    <TodoLayout>
+      <TasksSection />
+    </TodoLayout>
   );
+};
+
+UseRecoilPage.getLayout = function getLayout(page) {
+  return <Layout>{page}</Layout>;
 };
 
 export default UseRecoilPage;

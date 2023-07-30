@@ -1,18 +1,19 @@
+import { QueryClient, QueryClientProvider } from 'react-query';
 import { useEffect } from 'react';
 import { useSetRecoilState } from 'recoil';
 import { globalState } from '@/hooks/useGlobalState';
 import Layout from '@/components/Layout';
-import TasksProvider from '@/context/TasksContext';
 import TodoLayout from '@/components/TodoLayout';
 import TasksSection from '@/components/TasksSection';
 import { NextPageWithLayout } from '../_app';
 
-const UseServerRecoilPage: NextPageWithLayout = () => {
+const queryClient = new QueryClient();
+
+const UseReactQueryPage: NextPageWithLayout = () => {
   const setGlobalState = useSetRecoilState(globalState);
 
   useEffect(() => {
-    console.log('Setting global state');
-    setGlobalState({ stateManager: 'recoil' });
+    setGlobalState({ stateManager: 'react-query' });
   }, []);
 
   return (
@@ -22,8 +23,8 @@ const UseServerRecoilPage: NextPageWithLayout = () => {
   );
 };
 
-UseServerRecoilPage.getLayout = function getLayout(page) {
+UseReactQueryPage.getLayout = function getLayout(page) {
   return <Layout>{page}</Layout>;
 };
 
-export default UseServerRecoilPage;
+export default UseReactQueryPage;

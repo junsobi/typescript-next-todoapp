@@ -1,30 +1,32 @@
 import React, { createContext, useState, ReactNode, useEffect } from 'react';
-import { Task } from '@/types/type';
+import { Task, TaskManagerProps } from '@/types/type';
 import { v4 as uuidv4 } from 'uuid';
 import {
   saveTasksToLocalStorage,
   loadTasksFromLocalStorage,
 } from '@/utils/storage';
 
-export interface ContextProps {
-  tasks: Task[];
-  addTask: (
-    taskToAdd: Omit<Task, 'id' | 'createdDateTime' | 'lastModifiedDateTime'>,
-  ) => void;
-  editTask: (
-    taskToEdit: Pick<Task, 'id'> &
-      Omit<Task, 'createdDateTime' | 'lastModifiedDateTime'>,
-  ) => void;
-  toggleTask: (taskId: string) => void;
-  deleteTask: (taskId: string) => void;
-  clearCompletedTasks: () => void;
-}
+// export interface ContextProps {
+//   tasks: Task[];
+//   addTask: (
+//     taskToAdd: Omit<Task, 'id' | 'createdDateTime' | 'lastModifiedDateTime'>,
+//   ) => void;
+//   editTask: (
+//     taskToEdit: Pick<Task, 'id'> &
+//       Partial<Omit<Task, 'createdDateTime' | 'lastModifiedDateTime'>> & {
+//         DueDateTime?: Date | null;
+//       },
+//   ) => void;
+//   toggleTask: (taskId: string) => void;
+//   deleteTask: (taskId: string) => void;
+//   clearCompletedTasks: () => void;
+// }
 
 interface TasksProviderProps {
   children: ReactNode;
 }
 
-export const TasksContext = createContext<ContextProps>({
+export const TasksContext = createContext<TaskManagerProps>({
   tasks: [],
   addTask: () => undefined,
   editTask: () => undefined,
@@ -39,9 +41,9 @@ export const TasksProvider: React.FC<TasksProviderProps> = ({ children }) => {
   const [tasks, setTasks] = useState<Task[]>([]);
 
   useEffect(() => {
-    const loadAndSetTasks = async () => {
+    const loadAndSetTasks = () => {
       const storedTasks = loadTasksFromLocalStorage();
-      if (storedTasks) {
+      if (storedTasks && storedTasks.length > 0) {
         setTasks(storedTasks);
       }
     };
@@ -52,7 +54,7 @@ export const TasksProvider: React.FC<TasksProviderProps> = ({ children }) => {
   }, []);
 
   useEffect(() => {
-    if (tasks.length > 0 && typeof window !== 'undefined') {
+    if (typeof window !== 'undefined') {
       saveTasksToLocalStorage(tasks);
     }
   }, [tasks]);
@@ -60,6 +62,7 @@ export const TasksProvider: React.FC<TasksProviderProps> = ({ children }) => {
   const addTask = (
     taskToAdd: Omit<Task, 'id' | 'createdDateTime' | 'lastModifiedDateTime'>,
   ) => {
+    console.log('Adding with context');
     setTasks((currentTasks) => [
       ...currentTasks,
       {
@@ -75,10 +78,11 @@ export const TasksProvider: React.FC<TasksProviderProps> = ({ children }) => {
 
   const editTask = (
     taskToEdit: Pick<Task, 'id'> &
-      Omit<Task, 'createdDateTime' | 'lastModifiedDateTime' | 'DueDateTime'> & {
+      Partial<Omit<Task, 'createdDateTime' | 'lastModifiedDateTime'>> & {
         DueDateTime?: Date | null;
       },
   ) => {
+    console.log('Editing with context');
     setTasks((currentTasks) => {
       return currentTasks.map((task) => {
         if (task.id === taskToEdit.id) {
@@ -90,6 +94,7 @@ export const TasksProvider: React.FC<TasksProviderProps> = ({ children }) => {
   };
 
   const toggleTask = (taskId: string) => {
+    console.log('Toggling with context');
     setTasks((currentTasks) =>
       currentTasks.map((task) =>
         task.id === taskId
@@ -103,12 +108,14 @@ export const TasksProvider: React.FC<TasksProviderProps> = ({ children }) => {
   };
 
   const deleteTask = (taskId: string) => {
+    console.log('Deleting with context');
     setTasks((currentTasks) =>
       currentTasks.filter((task) => task.id !== taskId),
     );
   };
 
   const clearCompletedTasks = () => {
+    console.log('Clearing completed tasks with context');
     setTasks((currentTasks) =>
       currentTasks.filter((task) => task.status !== 'completed'),
     );
