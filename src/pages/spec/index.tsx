@@ -1,5 +1,4 @@
 import React from 'react';
-import dynamic from 'next/dynamic';
 import Layout from '@/components/Layout';
 import { NextPageWithLayout } from '../_app';
 import Scheme from '@/components/Scheme';

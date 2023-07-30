@@ -35,7 +35,7 @@ export interface TaskManagerPropsWithOptimisticId extends TaskManagerProps {
         >
       >,
   ) => void;
-  clearCompletedTasks: UseMutateFunction<unknown, unknown, unknown, unknown>;
+  clearCompletedTasks: () => void;
 }
 
 export interface TaskManagerProps {
