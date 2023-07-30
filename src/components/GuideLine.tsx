@@ -5,7 +5,7 @@ const GuideLine: React.FC = () => {
   return (
     <div className="flex flex-col h-full p-10 ">
       <h1 className="mb-8 text-3xl font-semibold text-gray-700">
-        Project GuideLine
+        프로젝트 가이드라인
       </h1>
       <Panel title="1. 프로젝트 세팅하기">
         <Panel title="Next.js 프로젝트 초기화">
