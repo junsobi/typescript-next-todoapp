@@ -35,7 +35,7 @@ export interface TaskManagerPropsWithOptimisticId extends TaskManagerProps {
         >
       >,
   ) => void;
-  clearCompletedTasks: () => void;
+  clearCompletedTasks: (input?: any) => void;
 }
 
 export interface TaskManagerProps {
